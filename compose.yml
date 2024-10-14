@@ -1,0 +1,63 @@
+services:
+  node:
+    build:
+      context: .
+      dockerfile: docker/node.dockerfile
+    container_name: dev_bookeez_node
+    entrypoint: 'tail -f /dev/null'
+    image: bookeez/node:1.0
+    labels:
+      caddy_0: api.bookeez.aaa
+      caddy_0.tls: internal
+      caddy_0.reverse_proxy: '{{upstreams 3333}}'
+      caddy_1: bookeez.aaa
+      caddy_1.tls: internal
+      caddy_1.reverse_proxy: '{{upstreams 5173}}'
+    networks:
+      - default
+      - global_reverse_proxy
+    restart: unless-stopped
+    volumes:
+      - ./:/home/node/app
+    working_dir: /home/node/app
+
+  database:
+    build:
+      context: .
+      dockerfile: docker/postgres.dockerfile
+    container_name: dev_bookeez_database
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: bookeez
+    image: bookeez/postgres:1.0
+    networks:
+      - default
+    restart: unless-stopped
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  adminer:
+    container_name: dev_bookeez_adminer
+    environment:
+      ADMINER_DESIGN: pepa-linha
+    image: adminer
+    labels:
+      caddy: db.bookeez.aaa
+      caddy.tls: internal
+      caddy.reverse_proxy: '{{upstreams 8080}}'
+    networks:
+      - default
+      - global_reverse_proxy
+    restart: unless-stopped
+
+networks:
+  default:
+    name: dev_bookeez_net_default
+    driver: bridge
+  global_reverse_proxy:
+    external: true
+
+volumes:
+  db_data:
+    name: dev_bookeez_vol_database
