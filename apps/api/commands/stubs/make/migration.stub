@@ -3,14 +3,15 @@
     to: app.migrationsPath(entity.path, migration.fileName)
   })
 }}}
-import type { DB } from '#types/db';
+import { Kysely } from 'kysely';
 
-import { Kysely } from 'kysely'
+import type { DB } from '#types/db';
 
 export async function up(db: Kysely<DB>): Promise<void> {
   await db.schema
     .createTable('{{ migration.tableName }}')
-    .addColumn('id', 'integer', (col) => col.primaryKey().notNull())
+    .addColumn('id', 'integer', (col) => col.primaryKey().generatedAlwaysAsIdentity().notNull())
+    .addColumn('uid', 'uuid', (col) => col.unique().notNull())
     .addColumn('created_at', 'timestamp', (col) => col.notNull())
     .addColumn('updated_at', 'timestamp', (col) => col.notNull())
     .execute()

@@ -1,3 +1,14 @@
 {
-  "name": "@bookeez/monorepo"
+  "name": "@bookeez/monorepo",
+	"pnpm": {
+		"overrides": {
+			"strtok3": "8.0.1"
+		}
+	},
+	"overrides": {
+		"strtok3": "8.0.1"
+	},
+	"resolutions": {
+		"strtok3": "8.0.1"
+	}
 }
