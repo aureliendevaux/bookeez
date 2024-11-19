@@ -7,6 +7,8 @@ const CheckController = () => import('#controllers/auth/check_controller');
 const LogoutController = () => import('#controllers/auth/logout_controller');
 const RegisterController = () => import('#controllers/auth/register_controller');
 
+const DeleteAccountController = () => import('#controllers/account/delete_account_controller');
+
 router
 	.group(() => {
 		router.post('login', [LoginController]).as('auth.login');
@@ -15,3 +17,10 @@ router
 		router.post('logout', [LogoutController]).as('auth.logout').use(middleware.auth());
 	})
 	.prefix('auth');
+
+router
+	.group(() => {
+		router.delete('', [DeleteAccountController]).as('account.delete');
+	})
+	.prefix('account')
+	.middleware(middleware.auth());
