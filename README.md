@@ -61,7 +61,7 @@
 - [X] Se déconnecter
 - [X] Savoir si l'on est connecté
 - [ ] Modifier son compte
-- [ ] Supprimer son compte
+- [X] Supprimer son compte
 - [ ] Mot de passe oublié
 - [ ] S'abonner à un genre
 
