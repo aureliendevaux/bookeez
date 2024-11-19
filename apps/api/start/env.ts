@@ -22,4 +22,11 @@ export default await Env.create(new URL('../', import.meta.url), {
 	GOD_EMAIL: Env.schema.string({ format: 'email' }),
 	GOD_PASSWORD: Env.schema.string(),
 	GOD_USERNAME: Env.schema.string(),
+
+	// Mailer
+	SMTP_HOST: Env.schema.string(),
+	SMTP_PORT: Env.schema.string(),
+
+	// Frontend
+	FRONTEND_HOST: Env.schema.string({ format: 'url' }),
 });
