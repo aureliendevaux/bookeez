@@ -32,6 +32,8 @@ export default defineConfig({
 		() => import('@adonisjs/cors/cors_provider'),
 		() => import('@adonisjs/session/session_provider'),
 		() => import('@adonisjs/auth/auth_provider'),
+		() => import('#providers/database_provider'),
+		() => import('#providers/validator_provider'),
 	],
 
 	/*
