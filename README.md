@@ -2,12 +2,6 @@
 
 ## Fonctionnalités
 
-### Authentification
-- [X] Se connecter
-- [X] Vérifier son statut de connexion
-- [X] Se déconnecter
-- [ ] Créer un compte
-
 ### Gestion des livres
 - [ ] En tant qu'utilisateur, je veux chercher un livre par son titre, son auteur ou son ISBN
 - [ ] En tant que maison d'édition, je veux modifier les informations d'un livre de ma maison d'édition
@@ -62,9 +56,10 @@
 - [ ] Retourner un livre
 
 ### Gestion des utilisateurs
-- [ ] En tant qu'utilisateur non-connecté, je veux créer un compte
-- [ ] Se connecter
-- [ ] Se déconnecter
+- [X] En tant qu'utilisateur non-connecté, je veux créer un compte
+- [X] Se connecter
+- [X] Se déconnecter
+- [X] Savoir si l'on est connecté
 - [ ] Modifier son compte
 - [ ] Supprimer son compte
 - [ ] Mot de passe oublié
