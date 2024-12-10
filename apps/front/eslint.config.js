@@ -17,6 +17,7 @@ import eslintUnicorn from 'eslint-plugin-unicorn';
 import eslintReact from 'eslint-plugin-react';
 import eslintReactRefresh from 'eslint-plugin-react-refresh';
 import unocss from '@unocss/eslint-config/flat';
+import eslintQuery from '@tanstack/eslint-plugin-query';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -30,6 +31,7 @@ const react = [
 	eslintReact.configs.flat.recommended,
 	eslintReact.configs.flat['jsx-runtime'],
 	eslintReactRefresh.configs.recommended,
+	eslintQuery.configs['flat/recommended'],
 ];
 
 /** @see https://unocss.dev/integrations/eslint */
