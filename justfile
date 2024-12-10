@@ -9,6 +9,9 @@ reset:
 api +args:
     {{ PNPM }} -F "@bookeez/api" {{ args }}
 
+front +args:
+    {{ PNPM }} -F "@bookeez/front" {{ args }}
+
 ace *args:
     {{ PNPM }} -F "@bookeez/api" ace {{ args }}
 
