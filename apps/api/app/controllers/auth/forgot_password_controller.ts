@@ -39,5 +39,7 @@ export default class ForgotPasswordController {
 			.make('auth.password.reset');
 
 		await mail.send(new ResetPasswordNotification(payload.email, resetLink));
+
+		return response.noContent();
 	}
 }

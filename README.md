@@ -62,7 +62,7 @@
 - [X] Savoir si l'on est connecté
 - [ ] Modifier son compte
 - [X] Supprimer son compte
-- [ ] Mot de passe oublié
+- [X] Mot de passe oublié
 - [ ] S'abonner à un genre
 
 ### Gestion des rôles

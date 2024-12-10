@@ -7,6 +7,7 @@ const CheckController = () => import('#controllers/auth/check_controller');
 const LogoutController = () => import('#controllers/auth/logout_controller');
 const RegisterController = () => import('#controllers/auth/register_controller');
 const ForgotPasswordController = () => import('#controllers/auth/forgot_password_controller');
+const ResetPasswordController = () => import('#controllers/auth/reset_password_controller');
 
 const DeleteAccountController = () => import('#controllers/account/delete_account_controller');
 
@@ -17,11 +18,7 @@ router
 		router.post('register', [RegisterController]).as('auth.register');
 		router.post('logout', [LogoutController]).as('auth.logout').use(middleware.auth());
 		router.post('forgot-password', [ForgotPasswordController]).as('auth.password.forgot');
-		router
-			.post('reset-password/:token', () => {
-				console.log('ici');
-			})
-			.as('auth.password.reset');
+		router.post('reset-password/:token', [ResetPasswordController]).as('auth.password.reset');
 	})
 	.prefix('auth');
 
