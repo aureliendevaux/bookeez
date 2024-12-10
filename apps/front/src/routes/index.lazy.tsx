@@ -1,9 +1,23 @@
 import { createLazyFileRoute } from '@tanstack/react-router';
+import { useAuthStore } from '~/stores/auth_store.ts';
 
 export const Route = createLazyFileRoute('/')({
 	component: Home,
 });
 
 function Home() {
-	return <div>Hello world</div>;
+	const { getUser } = useAuthStore();
+	const user = getUser();
+
+	if (!user) {
+		return <strong>Tu n'es pas connecté enfoiré</strong>;
+	}
+
+	return (
+		<ul>
+			<li>Bienvenue {user.username}</li>
+			<li>Ton UID est {user.uid}</li>
+			<li>Tes rôles sont {user.roles.join(', ')}</li>
+		</ul>
+	);
 }
