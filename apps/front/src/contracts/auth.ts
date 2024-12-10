@@ -1,5 +1,6 @@
-import { c } from '~/contracts/utils';
 import { z } from 'zod';
+
+import { c } from '~/contracts/utils';
 
 export const authContract = c.router({
 	login: {

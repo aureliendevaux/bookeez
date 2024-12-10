@@ -8,92 +8,92 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router';
 
 // Import Routes
 
-import { Route as rootRoute } from './routes/__root'
+import { Route as rootRoute } from './routes/__root';
 
 // Create Virtual Routes
 
-const IndexLazyImport = createFileRoute('/')()
-const AuthLoginLazyImport = createFileRoute('/auth/login')()
+const IndexLazyImport = createFileRoute('/')();
+const AuthLoginLazyImport = createFileRoute('/auth/login')();
 
 // Create/Update Routes
 
 const IndexLazyRoute = IndexLazyImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+	id: '/',
+	path: '/',
+	getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route));
 
 const AuthLoginLazyRoute = AuthLoginLazyImport.update({
-  id: '/auth/login',
-  path: '/auth/login',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/auth/login.lazy').then((d) => d.Route))
+	id: '/auth/login',
+	path: '/auth/login',
+	getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/auth/login.lazy').then((d) => d.Route));
 
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
-  interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/auth/login': {
-      id: '/auth/login'
-      path: '/auth/login'
-      fullPath: '/auth/login'
-      preLoaderRoute: typeof AuthLoginLazyImport
-      parentRoute: typeof rootRoute
-    }
-  }
+	interface FileRoutesByPath {
+		'/': {
+			id: '/';
+			path: '/';
+			fullPath: '/';
+			preLoaderRoute: typeof IndexLazyImport;
+			parentRoute: typeof rootRoute;
+		};
+		'/auth/login': {
+			id: '/auth/login';
+			path: '/auth/login';
+			fullPath: '/auth/login';
+			preLoaderRoute: typeof AuthLoginLazyImport;
+			parentRoute: typeof rootRoute;
+		};
+	}
 }
 
 // Create and export the route tree
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexLazyRoute
-  '/auth/login': typeof AuthLoginLazyRoute
+	'/': typeof IndexLazyRoute;
+	'/auth/login': typeof AuthLoginLazyRoute;
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexLazyRoute
-  '/auth/login': typeof AuthLoginLazyRoute
+	'/': typeof IndexLazyRoute;
+	'/auth/login': typeof AuthLoginLazyRoute;
 }
 
 export interface FileRoutesById {
-  __root__: typeof rootRoute
-  '/': typeof IndexLazyRoute
-  '/auth/login': typeof AuthLoginLazyRoute
+	'__root__': typeof rootRoute;
+	'/': typeof IndexLazyRoute;
+	'/auth/login': typeof AuthLoginLazyRoute;
 }
 
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth/login'
-  fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth/login'
-  id: '__root__' | '/' | '/auth/login'
-  fileRoutesById: FileRoutesById
+	fileRoutesByFullPath: FileRoutesByFullPath;
+	fullPaths: '/' | '/auth/login';
+	fileRoutesByTo: FileRoutesByTo;
+	to: '/' | '/auth/login';
+	id: '__root__' | '/' | '/auth/login';
+	fileRoutesById: FileRoutesById;
 }
 
 export interface RootRouteChildren {
-  IndexLazyRoute: typeof IndexLazyRoute
-  AuthLoginLazyRoute: typeof AuthLoginLazyRoute
+	IndexLazyRoute: typeof IndexLazyRoute;
+	AuthLoginLazyRoute: typeof AuthLoginLazyRoute;
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexLazyRoute: IndexLazyRoute,
-  AuthLoginLazyRoute: AuthLoginLazyRoute,
-}
+	IndexLazyRoute: IndexLazyRoute,
+	AuthLoginLazyRoute: AuthLoginLazyRoute,
+};
 
 export const routeTree = rootRoute
-  ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>()
+	._addFileChildren(rootRouteChildren)
+	._addFileTypes<FileRouteTypes>();
 
 /* ROUTE_MANIFEST_START
 {

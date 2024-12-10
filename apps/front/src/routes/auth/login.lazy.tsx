@@ -1,16 +1,17 @@
-import { createLazyFileRoute, useNavigate } from '@tanstack/react-router';
 import { useForm } from '@tanstack/react-form';
+import { createLazyFileRoute, useNavigate } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-form-adapter';
 import { z } from 'zod';
-import { useAuthStore } from '~/stores/auth_store';
+
 import { tsr } from '~/lib/query.ts';
+import { useAuthActions } from '~/stores/auth_store';
 
 export const Route = createLazyFileRoute('/auth/login')({
 	component: RouteComponent,
 });
 
 function RouteComponent() {
-	const { login } = useAuthStore();
+	const { login } = useAuthActions();
 	const navigate = useNavigate({ from: '/auth/login' });
 	const { mutate } = tsr.auth.login.useMutation();
 

@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { useShallow } from 'zustand/react/shallow';
 
 interface TAuthUser {
 	uid: string;
@@ -6,15 +7,18 @@ interface TAuthUser {
 	roles: Array<string>;
 }
 
-interface TAuthStore {
+interface TAuthState {
 	user: TAuthUser | null;
+}
+
+interface TAuthActions {
 	login: (user: TAuthUser) => void;
 	logout: () => void;
 	isAuthenticated: () => boolean;
 	getUser: () => TAuthUser | null;
 }
 
-export const useAuthStore = create<TAuthStore>((set, get) => ({
+const useAuthStore = create<TAuthState & TAuthActions>((set, get) => ({
 	user: null,
 	login(user) {
 		set({ user });
@@ -29,3 +33,14 @@ export const useAuthStore = create<TAuthStore>((set, get) => ({
 		return get().user;
 	},
 }));
+
+export function useAuthActions() {
+	return useAuthStore(
+		useShallow((state) => ({
+			login: state.login,
+			logout: state.logout,
+			isAuthenticated: state.isAuthenticated,
+			getUser: state.getUser,
+		})),
+	);
+}
