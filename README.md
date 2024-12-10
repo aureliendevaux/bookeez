@@ -61,8 +61,8 @@
 - [X] Se déconnecter
 - [X] Savoir si l'on est connecté
 - [ ] Modifier son compte
-- [ ] Supprimer son compte
-- [ ] Mot de passe oublié
+- [X] Supprimer son compte
+- [X] Mot de passe oublié
 - [ ] S'abonner à un genre
 
 ### Gestion des rôles
