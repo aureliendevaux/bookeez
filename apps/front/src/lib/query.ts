@@ -11,4 +11,6 @@ export const tsr = initTsrReactQuery(contract, {
 		'Content-Type': 'application/json',
 		'Accept': 'application/json',
 	},
+	credentials: 'include',
+	validateResponse: true,
 });
