@@ -8,8 +8,8 @@ const LogoutController = () => import('#controllers/auth/logout_controller');
 const RegisterController = () => import('#controllers/auth/register_controller');
 const ForgotPasswordController = () => import('#controllers/auth/forgot_password_controller');
 const ResetPasswordController = () => import('#controllers/auth/reset_password_controller');
-
 const DeleteAccountController = () => import('#controllers/account/delete_account_controller');
+const KindsController = () => import('#controllers/kinds_controller');
 
 router
 	.group(() => {
@@ -28,3 +28,12 @@ router
 	})
 	.prefix('account')
 	.middleware(middleware.auth());
+
+router
+	.group(() => {
+		router.get('/', [KindsController, 'index']).as('kinds.index');
+		router.post('/', [KindsController, 'store']).as('kinds.store');
+		router.put('/:uid', [KindsController, 'update']).as('kinds.update');
+		router.delete('/:uid', [KindsController, 'destroy']).as('kinds.destroy');
+	})
+	.prefix('kinds');

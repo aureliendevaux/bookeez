@@ -9,7 +9,7 @@ export default await Env.create(new URL('../', import.meta.url), {
 	LOG_LEVEL: Env.schema.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace']),
 
 	// Database
-	POSTGRES_HOST: Env.schema.string({ format: 'host' }),
+	POSTGRES_HOST: Env.schema.string(),
 	POSTGRES_PORT: Env.schema.number(),
 	POSTGRES_USER: Env.schema.string(),
 	POSTGRES_PASSWORD: Env.schema.string(),

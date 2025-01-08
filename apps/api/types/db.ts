@@ -45,7 +45,24 @@ export declare namespace RememberMeToken {
 	export type Update = Updateable<Table>;
 }
 
+export declare namespace Kind {
+	export interface Table {
+		id: Generated<number>;
+		uid: Uid;
+		name: string;
+		createdAt: Timestamp;
+		updatedAt: Timestamp;
+		createdById: number | null;
+		updatedById: number | null;
+	}
+
+	export type Row = Selectable<Table>;
+	export type Create = Insertable<Table>;
+	export type Update = Updateable<Table>;
+}
+
 export interface DB {
 	users: User.Table;
 	remember_me_tokens: RememberMeToken.Table;
+	kinds: Kind.Table;
 }
