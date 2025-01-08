@@ -24,6 +24,7 @@ const sessionConfig = defineConfig({
 	 * cookie store
 	 */
 	cookie: {
+		domain: '.bookeez.aaa',
 		path: '/',
 		httpOnly: true,
 		secure: app.inProduction,
