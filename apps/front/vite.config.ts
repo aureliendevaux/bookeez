@@ -13,5 +13,11 @@ export default defineConfig({
 			'~': path.resolve(__dirname, './src'),
 		},
 	},
-	plugins: [TanStackRouterVite(), react(), unocss()],
+	plugins: [
+		TanStackRouterVite({
+			virtualRouteConfig: './src/routes.ts',
+		}),
+		react(),
+		unocss(),
+	],
 });

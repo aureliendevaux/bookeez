@@ -1,6 +1,5 @@
 import { useForm } from '@tanstack/react-form';
 import { createLazyFileRoute, useNavigate } from '@tanstack/react-router';
-import { zodValidator } from '@tanstack/zod-form-adapter';
 import { z } from 'zod';
 
 import { tsr } from '~/lib/query.ts';
@@ -10,12 +9,19 @@ export const Route = createLazyFileRoute('/auth/login')({
 	component: RouteComponent,
 });
 
+const schema = z.object({
+	email: z.string().email(),
+	password: z.string(),
+});
+
+type Schema = z.infer<typeof schema>;
+
 function RouteComponent() {
 	const { login } = useAuthActions();
 	const navigate = useNavigate({ from: '/auth/login' });
 	const { mutate } = tsr.auth.login.useMutation();
 
-	const form = useForm({
+	const form = useForm<Schema>({
 		defaultValues: {
 			email: '',
 			password: '',
@@ -26,12 +32,11 @@ function RouteComponent() {
 				{
 					onSuccess: (result) => {
 						login(result.body);
-						void navigate({ to: '/' });
+						void navigate({ to: '/m' });
 					},
 				},
 			);
 		},
-		validatorAdapter: zodValidator(),
 	});
 
 	return (
@@ -46,13 +51,15 @@ function RouteComponent() {
 				<form.Field
 					name="email"
 					validators={{
-						onChange: z.string().email(),
+						onChange: schema.shape.email,
 					}}
 				>
 					{(field) => (
 						<>
+							<label htmlFor="email">Email</label>
 							<input
 								type="email"
+								id="email"
 								name={field.name}
 								value={field.state.value}
 								onBlur={field.handleBlur}
@@ -69,13 +76,15 @@ function RouteComponent() {
 				<form.Field
 					name="password"
 					validators={{
-						onChange: z.string(),
+						onChange: schema.shape.password,
 					}}
 				>
 					{(field) => (
 						<>
+							<label htmlFor="password">Mot de passe</label>
 							<input
 								type="password"
+								id="password"
 								name={field.name}
 								value={field.state.value}
 								onBlur={field.handleBlur}
@@ -88,7 +97,13 @@ function RouteComponent() {
 					)}
 				</form.Field>
 			</div>
-			<button type="submit">Se connecter</button>
+			<form.Subscribe selector={(state) => [state.canSubmit]}>
+				{([canSubmit]) => (
+					<button type="submit" disabled={!canSubmit}>
+						Se connecter
+					</button>
+				)}
+			</form.Subscribe>
 		</form>
 	);
 }
