@@ -9,8 +9,16 @@ import { createKindValidator, updateKindValidator } from '#validators/kind';
 export default class KindsController {
 	constructor(private readonly kindRepository: KindRepository) {}
 
+	async destroy({ params, response }: HttpContext) {
+		const kind = await this.kindRepository.findOneByOrFail([['uid', '=', params.uid]]).select('id');
+
+		await this.kindRepository.delete([['id', kind.id]]).execute();
+
+		return response.noContent();
+	}
+
 	async index({ response }: HttpContext) {
-		const kinds = await this.kindRepository.findBy([]).select('name', 'uid');
+		const kinds = await this.kindRepository.findAll().select('name', 'uid');
 
 		return response.ok(kinds);
 	}
@@ -24,11 +32,7 @@ export default class KindsController {
 	}
 
 	async update({ params, request, response }: HttpContext) {
-		const kind = await this.kindRepository.findBy([['uid', params.uid]]).selectTakeFirst('id');
-
-		if (!kind) {
-			return response.notFound();
-		}
+		const kind = await this.kindRepository.findOneByOrFail([['uid', '=', params.uid]]).select('id');
 
 		const payload = await request.validateUsing(updateKindValidator, { meta: { id: kind.id } });
 
@@ -37,17 +41,5 @@ export default class KindsController {
 			.returning('uid', 'name');
 
 		return response.ok(updatedKind);
-	}
-
-	async destroy({ params, response }: HttpContext) {
-		const kind = await this.kindRepository.findBy([['uid', params.uid]]).selectTakeFirst('id');
-
-		if (!kind) {
-			return response.notFound();
-		}
-
-		await this.kindRepository.delete([['id', kind.id]]).execute();
-
-		return response.noContent();
 	}
 }

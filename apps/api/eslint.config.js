@@ -11,6 +11,16 @@ import eslintPromise from 'eslint-plugin-promise';
 import sonarjs from 'eslint-plugin-sonarjs';
 import typescriptESLint from 'typescript-eslint';
 import eslintUnicorn from 'eslint-plugin-unicorn';
+import eslintPerfectionist from 'eslint-plugin-perfectionist';
+
+const IGNORED_FILES = [
+	'dist',
+	'eslint.config.js',
+	'uno.config.ts',
+	'prettier.config.js',
+	'vite.config.ts',
+	'src/route_tree.gen.ts',
+];
 
 /** @see https://github.com/adonisjs/eslint-plugin-adonisjs */
 const adonis = [
@@ -21,6 +31,41 @@ const adonis = [
 		rules: {
 			'@adonisjs/prefer-lazy-controller-import': 'error',
 			'@adonisjs/prefer-lazy-listener-import': 'error',
+		},
+	},
+];
+
+/** @see https://github.com/azat-io/eslint-plugin-perfectionist */
+const perfectionist = [
+	eslintPerfectionist.configs['recommended-natural'],
+	{
+		rules: {
+			'perfectionist/sort-imports': [
+				'error',
+				{
+					type: 'alphabetical',
+					order: 'asc',
+					ignoreCase: true,
+					specialCharacters: 'keep',
+					internalPattern: ['^#.+'],
+					partitionByComment: false,
+					partitionByNewLine: false,
+					newlinesBetween: 'always',
+					maxLineLength: undefined,
+					groups: [
+						'type',
+						['builtin', 'external'],
+						'internal-type',
+						'internal',
+						['parent-type', 'sibling-type', 'index-type'],
+						['parent', 'sibling', 'index'],
+						'object',
+						'unknown',
+					],
+					customGroups: { type: {}, value: {} },
+					environment: 'node',
+				},
+			],
 		},
 	},
 ];
@@ -113,7 +158,7 @@ const importX = [
 			'import-x/no-named-as-default': 'off',
 			'import-x/no-named-as-default-member': 'off',
 			'import-x/order': [
-				'error',
+				'off',
 				{
 					'groups': [
 						'type',
@@ -187,6 +232,7 @@ const sonar = [
 		rules: {
 			'sonarjs/no-duplicate-string': 'off',
 			'sonarjs/no-accessor-field-mismatch': 'off',
+			'sonarjs/no-hardcoded-passwords': 'off',
 		},
 	},
 ];
@@ -309,7 +355,7 @@ const unicorn = [
 export default [
 	/* Ignores files globally. */
 	{
-		ignores: ['dist', 'eslint.config.js', 'vite.config.ts', 'uno.config.ts', 'tailwind.config.js'],
+		ignores: ['dist', 'eslint.config.js', '.adonisjs'],
 	},
 	/* Global options. */
 	{
@@ -329,6 +375,7 @@ export default [
 	...noUseExtendNative,
 	...node,
 	...importX,
+	...perfectionist,
 	...promise,
 	...prettier,
 	...adonis,

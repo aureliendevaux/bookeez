@@ -10,14 +10,38 @@ import { RuntimeException } from '@adonisjs/core/exceptions';
 import app from '@adonisjs/core/services/app';
 import hash from '@adonisjs/core/services/hash';
 
-import { db } from '#database/db';
+import type { User } from '#types/db';
+
 import RememberMeTokenRepository from '#repositories/remember_me_token_repository';
 import UserRepository from '#repositories/user_repository';
 import { date } from '#services/date_factory';
-import type { User } from '#types/db';
+import { db } from '#services/db';
 
 export class SessionKyselyUserProvider implements SessionWithTokensUserProviderContract<User.Row> {
 	declare [symbols.PROVIDER_REAL_USER]: User.Row;
+
+	async createRememberToken(user: User.Row, expiresIn: number | string): Promise<RememberMeToken> {
+		const transientToken = RememberMeToken.createTransientToken(user.id, 40, expiresIn);
+		const rememberMeTokenRepository = await app.container.make(RememberMeTokenRepository);
+
+		const token = await rememberMeTokenRepository
+			.create({
+				expiresAt: date(transientToken.expiresAt).toSQL(),
+				hash: transientToken.hash,
+				tokenableId: user.id,
+			})
+			.returningAllOrThrow();
+
+		return new RememberMeToken({
+			createdAt: token.createdAt,
+			expiresAt: transientToken.expiresAt,
+			hash: transientToken.hash,
+			identifier: token.uid,
+			secret: transientToken.secret,
+			tokenableId: user.id,
+			updatedAt: token.updatedAt,
+		});
+	}
 
 	// eslint-disable-next-line @typescript-eslint/require-await
 	async createUserForGuard(user: User.Row): Promise<SessionGuardUser<User.Row>> {
@@ -31,7 +55,26 @@ export class SessionKyselyUserProvider implements SessionWithTokensUserProviderC
 		};
 	}
 
-	async findById(identifier: number): Promise<SessionGuardUser<User.Row> | null> {
+	async deleteRemeberToken(
+		user: User.Row,
+		tokenIdentifier: bigint | number | string,
+	): Promise<number> {
+		if (typeof tokenIdentifier !== 'string') {
+			throw new RuntimeException('Remember me token identifier must be a string');
+		}
+
+		const rememberMeTokenRepository = await app.container.make(RememberMeTokenRepository);
+		const deletion = await rememberMeTokenRepository
+			.delete([
+				['uid', tokenIdentifier],
+				['tokenableId', user.id],
+			])
+			.executeTakeFirst();
+
+		return Number(deletion.numDeletedRows);
+	}
+
+	async findById(identifier: number): Promise<null | SessionGuardUser<User.Row>> {
 		const user = await db
 			.selectFrom('users')
 			.selectAll()
@@ -45,89 +88,18 @@ export class SessionKyselyUserProvider implements SessionWithTokensUserProviderC
 		return this.createUserForGuard(user);
 	}
 
-	async createRememberToken(user: User.Row, expiresIn: string | number): Promise<RememberMeToken> {
-		const transientToken = RememberMeToken.createTransientToken(user.id, 40, expiresIn);
-		const rememberMeTokenRepository = await app.container.make(RememberMeTokenRepository);
-
-		const token = await rememberMeTokenRepository
-			.create({
-				tokenableId: user.id,
-				hash: transientToken.hash,
-				expiresAt: date(transientToken.expiresAt).toSQL(),
-			})
-			.returningAllOrThrow();
-
-		return new RememberMeToken({
-			identifier: token.uid,
-			hash: transientToken.hash,
-			expiresAt: transientToken.expiresAt,
-			tokenableId: user.id,
-			secret: transientToken.secret,
-			createdAt: token.createdAt,
-			updatedAt: token.updatedAt,
-		});
-	}
-
-	async verifyRememberToken(tokenValue: Secret<string>): Promise<RememberMeToken | null> {
-		const rememberMeTokenRepository = await app.container.make(RememberMeTokenRepository);
-		const decodedToken = RememberMeToken.decode(tokenValue.release());
-
-		if (!decodedToken) {
-			return null;
-		}
-
-		const token = await rememberMeTokenRepository.get(decodedToken.identifier).selectAllTakeFirst();
-
-		if (!token) {
-			return null;
-		}
-
-		const rememberMeToken = new RememberMeToken({
-			identifier: token.uid,
-			hash: token.hash,
-			tokenableId: token.tokenableId,
-			expiresAt: token.expiresAt,
-			createdAt: token.createdAt,
-			updatedAt: token.updatedAt,
-		});
-
-		const tokenIsVerified = rememberMeToken.verify(decodedToken.secret);
-
-		if (!tokenIsVerified || rememberMeToken.isExpired()) {
-			return null;
-		}
-
-		return rememberMeToken;
-	}
-
 	async recycleRememberToken(
 		user: User.Row,
-		tokenIdentifier: string | number | bigint,
-		expiresIn: string | number,
+		tokenIdentifier: bigint | number | string,
+		expiresIn: number | string,
 	): Promise<RememberMeToken> {
 		await this.deleteRemeberToken(user, tokenIdentifier);
 		return this.createRememberToken(user, expiresIn);
 	}
 
-	async deleteRemeberToken(
-		user: User.Row,
-		tokenIdentifier: string | number | bigint,
-	): Promise<number> {
-		if (typeof tokenIdentifier !== 'string') {
-			throw new RuntimeException('Remember me token identifier must be a string');
-		}
-
-		const rememberMeTokenRepository = await app.container.make(RememberMeTokenRepository);
-		const deletion = await rememberMeTokenRepository
-			.delete(tokenIdentifier, user.id)
-			.executeTakeFirst();
-
-		return Number(deletion.numDeletedRows);
-	}
-
 	async verifyCredentials(username: string, password: string): Promise<User.Row> {
 		const userRepository = await app.container.make(UserRepository);
-		const user = await userRepository.findBy([['email', username]]).selectAllTakeFirst();
+		const user = await userRepository.findOneBy([['email', '=', username]]).selectAll();
 
 		if (undefined === user) {
 			// eslint-disable-next-line @typescript-eslint/only-throw-error
@@ -142,5 +114,37 @@ export class SessionKyselyUserProvider implements SessionWithTokensUserProviderC
 		}
 
 		return user;
+	}
+
+	async verifyRememberToken(tokenValue: Secret<string>): Promise<null | RememberMeToken> {
+		const rememberMeTokenRepository = await app.container.make(RememberMeTokenRepository);
+		const decodedToken = RememberMeToken.decode(tokenValue.release());
+
+		if (!decodedToken) {
+			return null;
+		}
+
+		const token = await rememberMeTokenRepository.find('uid', decodedToken.identifier).selectAll();
+
+		if (!token) {
+			return null;
+		}
+
+		const rememberMeToken = new RememberMeToken({
+			createdAt: token.createdAt,
+			expiresAt: token.expiresAt,
+			hash: token.hash,
+			identifier: token.uid,
+			tokenableId: token.tokenableId,
+			updatedAt: token.updatedAt,
+		});
+
+		const tokenIsVerified = rememberMeToken.verify(decodedToken.secret);
+
+		if (!tokenIsVerified || rememberMeToken.isExpired()) {
+			return null;
+		}
+
+		return rememberMeToken;
 	}
 }

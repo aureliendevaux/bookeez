@@ -36,4 +36,5 @@ router
 		router.put('/:uid', [KindsController, 'update']).as('kinds.update');
 		router.delete('/:uid', [KindsController, 'destroy']).as('kinds.destroy');
 	})
-	.prefix('kinds');
+	.prefix('kinds')
+	.middleware(middleware.auth());

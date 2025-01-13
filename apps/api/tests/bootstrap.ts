@@ -17,12 +17,12 @@ export const plugins: Config['plugins'] = [
 ];
 
 export const runnerHooks: Required<Pick<Config, 'setup' | 'teardown'>> = {
-	setup: [],
+	setup: [() => testUtils.db().wipe(), () => testUtils.db().migrate()],
 	teardown: [],
 };
 
 export const configureSuite: Config['configureSuite'] = (suite) => {
-	if (['browser', 'functional', 'e2e'].includes(suite.name)) {
+	if (['browser', 'e2e', 'functional'].includes(suite.name)) {
 		return suite.setup(() => testUtils.httpServer().start());
 	}
 };

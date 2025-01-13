@@ -1,8 +1,7 @@
-import { inject } from '@adonisjs/core';
 import { BaseCommand, flags } from '@adonisjs/core/ace';
 import { CommandOptions } from '@adonisjs/core/types/ace';
 
-import { Database } from '#database/db';
+import { db, dropAllDomains, dropAllTables, dropAllTypes, dropAllViews } from '#services/db';
 
 export default class DatabaseWipe extends BaseCommand {
 	static readonly commandName = 'db:wipe';
@@ -12,10 +11,10 @@ export default class DatabaseWipe extends BaseCommand {
 	};
 
 	/**
-	 * Drop all views in database
+	 * Drop all domains in database
 	 */
-	@flags.boolean({ description: 'Drop all views' })
-	declare dropViews: boolean;
+	@flags.boolean({ description: 'Drop all domains (Postgres only)' })
+	declare dropDomains: boolean;
 
 	/**
 	 * Drop all types in database
@@ -24,10 +23,10 @@ export default class DatabaseWipe extends BaseCommand {
 	declare dropTypes: boolean;
 
 	/**
-	 * Drop all domains in database
+	 * Drop all views in database
 	 */
-	@flags.boolean({ description: 'Drop all domains (Postgres only)' })
-	declare dropDomains: boolean;
+	@flags.boolean({ description: 'Drop all views' })
+	declare dropViews: boolean;
 
 	/**
 	 * Force command execution in production
@@ -35,79 +34,75 @@ export default class DatabaseWipe extends BaseCommand {
 	@flags.boolean({ description: 'Explicitly force command to run in production' })
 	declare force: boolean;
 
-	@inject()
-	override async run(database: Database): Promise<void> {
-		await (this.isMain ? this.runAsMain(database) : this.runAsSubCommand(database));
-	}
-
-	@inject()
-	override async completed(database: Database) {
+	override async completed() {
 		if (this.isMain) {
-			await database.client.destroy();
+			await db.destroy();
 		}
 	}
 
-	/**
-	 * Prompts to take consent when wiping the database in production
-	 */
-	private async takeProductionConsent(): Promise<boolean> {
-		const question = 'You are in production environment. Want to continue wiping the database?';
-		try {
-			return await this.prompt.confirm(question);
-		} catch {
-			return false;
-		}
+	override async run(): Promise<void> {
+		await (this.isMain ? this.runAsMain() : this.runAsSubCommand());
 	}
 
 	/**
-	 * Drop all views (if asked for and supported)
+	 * Drop all domains (if asked for and supported)
 	 */
-	private async performDropViews(database: Database) {
-		if (!this.dropViews) {
+	private async performDropDomains() {
+		if (!this.dropDomains) {
 			return;
 		}
 
-		await database.dropAllViews();
-		this.logger.success('Dropped views successfully');
+		await dropAllDomains();
+		this.logger.success('Dropped domains successfully');
 	}
 
 	/**
 	 * Drop all tables
 	 */
-	private async performDropTables(database: Database) {
-		await database.dropAllTables();
+	private async performDropTables() {
+		await dropAllTables();
 		this.logger.success('Dropped tables successfully');
 	}
 
 	/**
 	 * Drop all types (if asked for and supported)
 	 */
-	private async performDropTypes(database: Database) {
+	private async performDropTypes() {
 		if (!this.dropTypes) {
 			return;
 		}
 
-		await database.dropAllTypes();
+		await dropAllTypes();
 		this.logger.success('Dropped types successfully');
 	}
 
 	/**
-	 * Drop all domains (if asked for and supported)
+	 * Drop all views (if asked for and supported)
 	 */
-	private async performDropDomains(database: Database) {
-		if (!this.dropDomains) {
+	private async performDropViews() {
+		if (!this.dropViews) {
 			return;
 		}
 
-		await database.dropAllDomains();
-		this.logger.success('Dropped domains successfully');
+		await dropAllViews();
+		this.logger.success('Dropped views successfully');
+	}
+
+	/**
+	 * Branching out, so that if required we can implement
+	 * "runAsMain" separately from "runAsSubCommand".
+	 *
+	 * For now, they both are the same
+	 */
+	private async runAsMain() {
+		await this.runAsSubCommand();
 	}
 
 	/**
 	 * Run as a subcommand. Never close database connections or exit
 	 * process inside this method
 	 */
-	private async runAsSubCommand(database: Database) {
+	private async runAsSubCommand() {
 		/**
 		 * Continue with clearing the database when not in production
 		 * or force flag is passed
@@ -124,19 +119,21 @@ export default class DatabaseWipe extends BaseCommand {
 			return;
 		}
 
-		await this.performDropViews(database);
-		await this.performDropTables(database);
-		await this.performDropTypes(database);
-		await this.performDropDomains(database);
+		await this.performDropViews();
+		await this.performDropTables();
+		await this.performDropTypes();
+		await this.performDropDomains();
 	}
 
 	/**
-	 * Branching out, so that if required we can implement
-	 * "runAsMain" separately from "runAsSubCommand".
-	 *
-	 * For now, they both are the same
+	 * Prompts to take consent when wiping the database in production
 	 */
-	private async runAsMain(database: Database) {
-		await this.runAsSubCommand(database);
+	private async takeProductionConsent(): Promise<boolean> {
+		const question = 'You are in production environment. Want to continue wiping the database?';
+		try {
+			return await this.prompt.confirm(question);
+		} catch {
+			return false;
+		}
 	}
 }

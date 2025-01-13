@@ -1,85 +1,201 @@
+import app from '@adonisjs/core/services/app';
+import testUtils from '@adonisjs/core/services/test_utils';
 import { test } from '@japa/runner';
 
-import { Database } from '#database/db';
 import KindRepository from '#repositories/kind_repository';
 import UserRepository from '#repositories/user_repository';
 
-test.group('Genres', () => {
-	test('it should list all kinds in database', async ({ client }) => {
+test.group('Kinds', (group) => {
+	group.each.setup(() => testUtils.db().truncate());
+
+	test('it should list all kinds in database', async ({ assert, client }) => {
 		// 1. Given
-		const database = new Database();
-		const repository = new UserRepository(database);
-		const user = await repository.findBy([['username', 'username']]).selectAllTakeFirst();
+		const userRepository = await app.container.make(UserRepository);
+		const kindRepository = await app.container.make(KindRepository);
+		const user = await userRepository
+			.create({
+				email: 'email@email.test',
+				password: 'password',
+				roles: ['ROLE_USER'],
+				username: 'username',
+			})
+			.returningAllOrThrow();
 
 		// 2. Act
-		const response = await client.get('/kinds').loginAs(user!);
+		const rowsCount = await kindRepository.count('id');
+		const response = await client.get('/kinds').loginAs(user);
 
 		// 3. Assert
 		response.assertStatus(200);
-		// response.assertBody([]);
+		const responseBody = response.response.body as Array<unknown>;
+		assert.isArray(responseBody);
+		assert.lengthOf(responseBody, rowsCount);
 	});
 
-	test('it should create a new kind', async ({ client }) => {
-		// 1. Given
-		const database = new Database();
-		const repository = new UserRepository(database);
-		const user = await repository.findBy([['username', 'username']]).selectAllTakeFirst();
-		const kindName = 'mon genre ' + Date.now();
+	test('it should create a new kind')
+		.with([{ name: 'mon genre' }])
+		.run(async ({ assert, client }, dataRow) => {
+			// 1. Given
+			const userRepository = await app.container.make(UserRepository);
+			const kindRepository = await app.container.make(KindRepository);
+			const user = await userRepository
+				.create({
+					email: 'email@email.test',
+					password: 'password',
+					roles: ['ROLE_USER'],
+					username: 'username',
+				})
+				.returningAllOrThrow();
+			const beforeCount = await kindRepository.count('id');
 
-		// 2. Act
-		const response = await client
-			.post('/kinds')
-			.json({
-				name: kindName,
-			})
-			.loginAs(user!);
+			// 2. Act
+			const response = await client
+				.post('/kinds')
+				.json({
+					name: dataRow.name,
+				})
+				.loginAs(user);
 
-		response.assertStatus(201);
-		response.assertBodyContains({
-			name: kindName,
+			// 3. Assert
+			const afterCount = await kindRepository.count('id');
+			response.assertStatus(201);
+			response.assertBodyContains({
+				name: dataRow.name,
+			});
+			assert.equal(afterCount, beforeCount + 1);
 		});
-	});
 
-	test('it should update a kind by its uid', async ({ client }) => {
-		// 1. Given
-		const database = new Database();
-		const repository = new UserRepository(database);
-		const user = await repository.findBy([['username', 'username']]).selectAllTakeFirst();
+	test('it should not create a kind with the same name')
+		.with([{ name: 'mon genre' }])
+		.run(async ({ assert, client }, dataRow) => {
+			// 1. Given
+			const userRepository = await app.container.make(UserRepository);
+			const kindRepository = await app.container.make(KindRepository);
+			const user = await userRepository
+				.create({
+					email: 'email@email.test',
+					password: 'password',
+					roles: ['ROLE_USER'],
+					username: 'username',
+				})
+				.returningAllOrThrow();
+			await kindRepository.create({ name: dataRow.name }).returningOrThrow('uid');
+			const beforeCount = await kindRepository.count('id');
 
-		const kindRepository = new KindRepository(database);
-		const kindName = 'mon genre ' + Date.now();
-		const kind = await kindRepository.create({ name: kindName }).returningAll();
-		const newKindName = 'new name ' + Date.now();
+			// 2. Act
+			const response = await client
+				.post('/kinds')
+				.json({
+					name: dataRow.name,
+				})
+				.loginAs(user);
 
-		// 2. Act
-		const response = await client
-			.put(`/kinds/${kind!.uid}`)
-			.json({
-				name: newKindName,
-			})
-			.loginAs(user!);
-
-		// 3. Assert
-		response.assertStatus(200);
-		response.assertBodyContains({
-			name: newKindName,
+			// 3. Assert
+			const afterCount = await kindRepository.count('id');
+			response.assertStatus(422);
+			response.assertBodyContains({
+				errors: [
+					{
+						field: 'name',
+						message: 'The name has already been taken',
+						rule: 'database.unique',
+					},
+				],
+			});
+			assert.equal(afterCount, beforeCount);
 		});
-	});
 
-	test('it should delete a kind by its uid', async ({ client }) => {
-		// 1. Given
-		const database = new Database();
-		const repository = new UserRepository(database);
-		const user = await repository.findBy([['username', 'username']]).selectAllTakeFirst();
+	test('it should update a kind by its uid')
+		.with([{ name: 'mon genre', updatedName: 'mon genre modifié' }])
+		.run(async ({ assert, client }, dataRow) => {
+			// 1. Given
+			const repository = await app.container.make(UserRepository);
+			const kindRepository = await app.container.make(KindRepository);
+			const user = await repository
+				.create({
+					email: 'email@email.test',
+					password: 'password',
+					roles: ['ROLE_USER'],
+					username: 'username',
+				})
+				.returningAllOrThrow();
+			const kind = await kindRepository.create({ name: dataRow.name }).returningOrThrow('uid');
+			const beforeCount = await kindRepository.count('id');
 
-		const kindRepository = new KindRepository(database);
-		const kindName = 'mon genre ' + Date.now();
-		const kind = await kindRepository.create({ name: kindName }).returningAll();
+			// 2. Act
+			const response = await client
+				.put(`/kinds/${kind.uid}`)
+				.json({
+					name: dataRow.updatedName,
+				})
+				.loginAs(user);
 
-		// 2. Act
-		const response = await client.delete(`/kinds/${kind!.uid}`).loginAs(user!);
+			// 3. Assert
+			const afterCount = await kindRepository.count('id');
+			response.assertStatus(200);
+			response.assertBodyContains({
+				name: dataRow.updatedName,
+			});
+			assert.equal(afterCount, beforeCount);
+		});
 
-		// 3. Assert
-		response.assertStatus(204);
-	});
+	test('it should update a kind by its uid even with the same content')
+		.with([{ name: 'mon genre', updatedName: 'mon genre' }])
+		.run(async ({ assert, client }, dataRow) => {
+			// 1. Given
+			const repository = await app.container.make(UserRepository);
+			const kindRepository = await app.container.make(KindRepository);
+			const user = await repository
+				.create({
+					email: 'email@email.test',
+					password: 'password',
+					roles: ['ROLE_USER'],
+					username: 'username',
+				})
+				.returningAllOrThrow();
+			const kind = await kindRepository.create({ name: dataRow.name }).returningOrThrow('uid');
+			const beforeCount = await kindRepository.count('id');
+
+			// 2. Act
+			const response = await client
+				.put(`/kinds/${kind.uid}`)
+				.json({
+					name: dataRow.updatedName,
+				})
+				.loginAs(user);
+
+			// 3. Assert
+			const afterCount = await kindRepository.count('id');
+			response.assertStatus(200);
+			response.assertBodyContains({
+				name: dataRow.updatedName,
+			});
+			assert.equal(afterCount, beforeCount);
+		});
+
+	test('it should delete a kind by its uid')
+		.with([{ name: 'mon genre' }])
+		.run(async ({ assert, client }, dataRow) => {
+			// 1. Given
+			const repository = await app.container.make(UserRepository);
+			const kindRepository = await app.container.make(KindRepository);
+			const user = await repository
+				.create({
+					email: 'email@email.test',
+					password: 'password',
+					roles: ['ROLE_USER'],
+					username: 'username',
+				})
+				.returningAllOrThrow();
+			const kind = await kindRepository.create({ name: dataRow.name }).returningOrThrow('uid');
+			const beforeCount = await kindRepository.count('id');
+
+			// 2. Act
+			const response = await client.delete(`/kinds/${kind.uid}`).loginAs(user);
+
+			// 3. Assert
+			const afterCount = await kindRepository.count('id');
+			response.assertStatus(204);
+			assert.equal(afterCount, beforeCount - 1);
+		});
 });

@@ -1,7 +1,6 @@
-import crypto from 'node:crypto';
-
 import vine from '@vinejs/vine';
 import { FieldContext } from '@vinejs/vine/types';
+import crypto from 'node:crypto';
 
 export async function havePasswordBeenPwned(password: string): Promise<boolean> {
 	const uInt8Password = new TextEncoder().encode(password);
@@ -21,8 +20,8 @@ export async function havePasswordBeenPwned(password: string): Promise<boolean> 
 	const hashes = body.split('\n').map((line) => {
 		const [currentHash, occurrences] = line.split(':');
 		return {
-			hash: currentHash,
 			count: occurrences ? Number.parseInt(occurrences, 10) : 0,
+			hash: currentHash,
 		};
 	});
 

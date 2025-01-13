@@ -1,10 +1,10 @@
 import vine, { VineNumber, VineString } from '@vinejs/vine';
 import { isNumber, isString } from 'radash';
 
-import { db } from '#database/db';
+import { db } from '#services/db';
 
 export const uniqueRule = vine.createRule<
-	Parameters<VineString['unique'] | VineNumber['unique']>[0]
+	Parameters<VineNumber['unique'] | VineString['unique']>[0]
 >(async (value, checker, field) => {
 	if (!field.isValid) {
 		return;
@@ -20,7 +20,7 @@ export const uniqueRule = vine.createRule<
 });
 
 export const existsRule = vine.createRule<
-	Parameters<VineString['exists'] | VineNumber['exists']>[0]
+	Parameters<VineNumber['exists'] | VineString['exists']>[0]
 >(async (value, checker, field) => {
 	if (!field.isValid) {
 		return;

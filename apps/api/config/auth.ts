@@ -1,4 +1,4 @@
-import type { InferAuthEvents, Authenticators, InferAuthenticators } from '@adonisjs/auth/types';
+import type { Authenticators, InferAuthenticators, InferAuthEvents } from '@adonisjs/auth/types';
 
 import { defineConfig } from '@adonisjs/auth';
 import { sessionGuard } from '@adonisjs/auth/session';
@@ -8,14 +8,14 @@ const authConfig = defineConfig({
 	default: 'web',
 	guards: {
 		web: sessionGuard({
-			useRememberMeTokens: true,
-			rememberMeTokensAge: '2w',
 			provider: configProvider.create(async () => {
 				const { SessionKyselyUserProvider } = await import(
 					'../app/auth_providers/session_user_provider.js'
 				);
 				return new SessionKyselyUserProvider();
 			}),
+			rememberMeTokensAge: '2w',
+			useRememberMeTokens: true,
 		}),
 	},
 });

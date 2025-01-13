@@ -13,7 +13,11 @@ import { forgotPasswordValidator } from '#validators/auth/forgot_password';
 export default class ForgotPasswordController {
 	constructor(private readonly userRepository: UserRepository) {}
 
-	async handle({ response, request }: HttpContext) {
+	async handle({ auth, request, response }: HttpContext) {
+		if (auth.use('web').isAuthenticated) {
+			return response.badRequest({ message: 'Vous êtes déjà connecté.' });
+		}
+
 		const payload = await request.validateUsing(forgotPasswordValidator);
 
 		const updateQuery = await this.userRepository

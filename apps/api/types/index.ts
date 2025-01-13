@@ -5,11 +5,7 @@ import { OperandValueExpressionOrList, ReferenceExpression, SelectExpression } f
 
 import { DB } from './db.js';
 
-// Matches any primitive value.
-export type Primitive = null | string | number | boolean | DateTime;
-
-// Get all values of an object as a union type.
-export type ValueOf<T> = T[keyof T];
+export type CommonFields = 'createdAt' | 'id' | 'uid' | 'updatedAt';
 
 // Get all values of an object as a union type, including nested objects.
 export type DeepValueOf<T extends Record<string, unknown>, Key = keyof T> = Key extends string
@@ -17,11 +13,6 @@ export type DeepValueOf<T extends Record<string, unknown>, Key = keyof T> = Key 
 		? DeepValueOf<T[Key]>
 		: ValueOf<T>
 	: never;
-
-// NullableObject<T> is an object with the same keys as T, but with all values being nullable.
-export type NullableObject<T> = {
-	[K in keyof T]: T[K] | null;
-};
 
 // Extract the instance type of class or the prototype of a class-like object.
 export type ExtractInstanceType<T> = T extends new (...args: Array<any>) => infer R
@@ -49,23 +40,32 @@ export type ExtractProperties<T> = {
 		: never;
 }[keyof T];
 
+// NullableObject<T> is an object with the same keys as T, but with all values being nullable.
+export type NullableObject<T> = {
+	[K in keyof T]: null | T[K];
+};
+
+// Matches any primitive value.
+export type Primitive = boolean | DateTime | null | number | string;
+
+export type RepositoryColumn<Table extends keyof DB> = ReferenceExpression<DB, Table>;
+// Repository utils
+export type RepositorySelection<Table extends keyof DB> = '*' | Array<SelectExpression<DB, Table>>;
+
+export type RepositoryValue<
+	Table extends keyof DB,
+	Col extends RepositoryColumn<Table>,
+> = OperandValueExpressionOrList<DB, Table, Col>;
+
 export type TupleOf<T, N extends number> = N extends N
 	? number extends N
 		? Array<T>
 		: $TupleOf<T, N, []>
 	: never;
+// Get all values of an object as a union type.
+export type ValueOf<T> = T[keyof T];
 type $TupleOf<T, N extends number, R extends Array<unknown>> = R['length'] extends N
 	? R
 	: $TupleOf<T, N, [T, ...R]>;
-
-export type CommonFields = 'id' | 'uid' | 'createdAt' | 'updatedAt';
-
-// Repository utils
-export type RepositorySelection<Table extends keyof DB> = Array<SelectExpression<DB, Table>> | '*';
-export type RepositoryColumn<Table extends keyof DB> = ReferenceExpression<DB, Table>;
-export type RepositoryValue<
-	Table extends keyof DB,
-	Col extends RepositoryColumn<Table>,
-> = OperandValueExpressionOrList<DB, Table, Col>;
 
 /* eslint-enable @typescript-eslint/no-explicit-any */

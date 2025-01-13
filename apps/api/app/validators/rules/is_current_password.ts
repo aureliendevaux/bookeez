@@ -3,7 +3,7 @@ import vine from '@vinejs/vine';
 import { FieldContext } from '@vinejs/vine/types';
 import { isString } from 'radash';
 
-import { db } from '#database/db';
+import { db } from '#services/db';
 
 export const isCurrentPassword = vine.createRule(
 	async (value: unknown, _options: undefined, field: FieldContext) => {

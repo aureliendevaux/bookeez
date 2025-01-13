@@ -5,13 +5,13 @@ import env from '#start/env';
 
 const mailConfig = defineConfig({
 	default: 'smtp',
+	from: 'bookeez<noreply@bookeez.aaa>',
 	mailers: {
 		smtp: transports.smtp({
 			host: env.get('SMTP_HOST'),
 			port: env.get('SMTP_PORT'),
 		}),
 	},
-	from: 'bookeez<noreply@bookeez.aaa>',
 	replyTo: 'contact@bookeez.aaa',
 });
 

@@ -1,50 +1,28 @@
 import { Transaction } from 'kysely';
 
-import AbstractRepository, { SelectColumn, SelectValue } from '#repositories/abstract_repository';
-import { date } from '#services/date_factory';
-import { generateUid } from '#services/uid_generator';
-import { type DB, Kind } from '#types/db';
 import type { CommonFields } from '#types/index';
+
+import AbstractRepository, {
+	type SelectColumn,
+	type SelectValue,
+} from '#repositories/abstract_repository';
+import { type DB, Kind } from '#types/db';
 
 type CreateKindDTO = Omit<Kind.Create, CommonFields>;
 type UpdateKindDTO = Omit<Kind.Update, CommonFields>;
 
-export default class KindRepository extends AbstractRepository {
-	get query() {
-		return {
-			select: (transaction?: Transaction<DB>) => this.$selectQuery({ table: 'kinds', transaction }),
-			update: (transaction?: Transaction<DB>) => this.$updateQuery({ table: 'kinds', transaction }),
-			delete: (transaction?: Transaction<DB>) => this.$deleteQuery({ table: 'kinds', transaction }),
-		};
-	}
-
-	get(id: number, transaction?: Transaction<DB>) {
-		return this.$findBy({
-			table: 'kinds',
-			where: [['id', id]],
-			transaction,
-		});
-	}
-
-	findBy<Col extends SelectColumn<'kinds'>>(
-		where: ReadonlyArray<[Col, SelectValue<'kinds', Col>]>,
-		transaction?: Transaction<DB>,
-	) {
-		return this.$findBy({
-			table: 'kinds',
-			where,
-			transaction,
-		});
+export default class KindRepository extends AbstractRepository<'kinds'> {
+	constructor() {
+		super('kinds');
 	}
 
 	create(payload: CreateKindDTO, transaction?: Transaction<DB>) {
 		return this.$create({
-			table: 'kinds',
 			payload: {
-				uid: generateUid(),
+				uid: this.uid(),
 				...payload,
-				createdAt: date().toSQL(),
-				updatedAt: date().toSQL(),
+				createdAt: this.now(),
+				updatedAt: this.now(),
 			},
 			transaction,
 		});
@@ -56,21 +34,9 @@ export default class KindRepository extends AbstractRepository {
 		transaction?: Transaction<DB>,
 	) {
 		return this.$update({
-			table: 'kinds',
-			where,
-			payload: { ...payload, updatedAt: date().toSQL() },
+			payload: { ...payload, updatedAt: this.now() },
 			transaction,
-		});
-	}
-
-	delete<Col extends SelectColumn<'kinds'>>(
-		where: ReadonlyArray<[Col, SelectValue<'kinds', Col>]>,
-		transaction?: Transaction<DB>,
-	) {
-		return this.$delete({
-			table: 'kinds',
 			where,
-			transaction,
 		});
 	}
 }

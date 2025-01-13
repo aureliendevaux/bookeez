@@ -16,6 +16,7 @@ export const registerValidator = SchemaFactory.create(
 
 				return result.length === 0;
 			}),
+		password: vine.string().confirmed().isSafePassword(),
 		username: vine.string().unique(async (database, value) => {
 			const result = await database
 				.selectFrom('users')
@@ -25,11 +26,9 @@ export const registerValidator = SchemaFactory.create(
 
 			return result.length === 0;
 		}),
-		password: vine.string().confirmed().isSafePassword(),
 	}),
 	{
 		'email.email': "Merci d'utiliser un email valide",
-		// eslint-disable-next-line sonarjs/no-hardcoded-credentials
 		'password.confirmed': 'Les deux mots de passe ne correspondent pas',
 	},
 );

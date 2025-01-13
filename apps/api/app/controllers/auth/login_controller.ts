@@ -16,8 +16,8 @@ export default class LoginController {
 		await auth.use('web').login(user);
 
 		return response.json({
-			uid: user.uid,
 			roles: user.roles,
+			uid: user.uid,
 			username: user.username,
 		});
 	}
