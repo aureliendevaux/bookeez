@@ -1,43 +1,18 @@
 import { defineConfig } from '@adonisjs/core/app';
 
 export default defineConfig({
-	/*
-|--------------------------------------------------------------------------
-| Commands
-|--------------------------------------------------------------------------
-|
-| List of ace commands to register from packages. The application commands
-| will be scanned automatically from the "./commands" directory.
-|
-*/
-	commands: [() => import('@adonisjs/core/commands'), () => import('@adonisjs/mail/commands')],
-
+	commands: [
+		() => import('@adonisjs/core/commands'),
+		() => import('@adonisjs/mail/commands'),
+		() => import('@adonisjs/bouncer/commands'),
+	],
 	metaFiles: [
 		{
 			pattern: 'resources/views/**/*.edge',
 			reloadServer: false,
 		},
 	],
-
-	/*
-|--------------------------------------------------------------------------
-| Preloads
-|--------------------------------------------------------------------------
-|
-| List of modules to import before starting the application.
-|
-*/
 	preloads: [() => import('#start/routes'), () => import('#start/kernel')],
-
-	/*
-|--------------------------------------------------------------------------
-| Service providers
-|--------------------------------------------------------------------------
-|
-| List of service providers to import and register when booting the
-| application
-|
-*/
 	providers: [
 		() => import('@adonisjs/core/providers/app_provider'),
 		() => import('@adonisjs/core/providers/hash_provider'),
@@ -53,16 +28,8 @@ export default defineConfig({
 		() => import('#providers/validator_provider'),
 		() => import('@adonisjs/mail/mail_provider'),
 		() => import('@adonisjs/core/providers/edge_provider'),
+		() => import('@adonisjs/bouncer/bouncer_provider'),
 	],
-	/*
-|--------------------------------------------------------------------------
-| Tests
-|--------------------------------------------------------------------------
-|
-| List of test suites to organize tests by their type. Feel free to remove
-| and add additional suites.
-|
-*/
 	tests: {
 		forceExit: false,
 		suites: [

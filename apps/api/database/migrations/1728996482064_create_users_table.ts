@@ -4,7 +4,7 @@ import type { DB } from '#types/db';
 
 import { tableNameGenerator } from '#database/utils';
 
-const { fk, pk, tableName, uq } = tableNameGenerator('users');
+const { fk, pk, tableName, uq, now } = tableNameGenerator('users');
 
 export async function down(db: Kysely<DB>): Promise<void> {
 	await db.schema.dropTable(tableName).execute();
@@ -22,8 +22,8 @@ export async function up(db: Kysely<DB>): Promise<void> {
 		.addColumn('password', 'varchar', (col) => col.notNull())
 		.addColumn('roles', sql`varchar[]`, (col) => col.notNull().defaultTo('{}'))
 		.addColumn('reset_password_token', 'uuid', (col) => col.defaultTo(null))
-		.addColumn('created_at', 'timestamp', (col) => col.notNull().defaultTo(sql`now()`))
-		.addColumn('updated_at', 'timestamp', (col) => col.notNull().defaultTo(sql`now()`))
+		.addColumn('created_at', 'timestamp', (col) => col.notNull().defaultTo(now()))
+		.addColumn('updated_at', 'timestamp', (col) => col.notNull().defaultTo(now()))
 		.addColumn('created_by_id', 'integer', (col) => col.defaultTo(null))
 		.addColumn('updated_by_id', 'integer', (col) => col.defaultTo(null))
 

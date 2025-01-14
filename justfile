@@ -3,7 +3,7 @@ PNPM := NODE + " pnpm"
 
 reset:
     {{ PNPM }} -F "@bookeez/api" ace db:wipe
-    {{ PNPM }} -F "@bookeez/api" ace kysely:migrate
+    {{ PNPM }} -F "@bookeez/api" ace db:migrate
     {{ PNPM }} -F "@bookeez/api" ace app:defaults
 
 api +args:

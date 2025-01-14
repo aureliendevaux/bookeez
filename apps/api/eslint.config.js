@@ -37,8 +37,10 @@ const adonis = [
 
 /** @see https://github.com/azat-io/eslint-plugin-perfectionist */
 const perfectionist = [
-	eslintPerfectionist.configs['recommended-natural'],
 	{
+		plugins: {
+			perfectionist: eslintPerfectionist,
+		},
 		rules: {
 			'perfectionist/sort-imports': [
 				'error',

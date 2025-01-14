@@ -1,3 +1,9 @@
+import { sql } from 'kysely';
+
+function now() {
+	return sql`now()`;
+}
+
 export function tableNameGenerator(tableName: string) {
 	function key(name: string) {
 		return `${tableName}_${name}`;
@@ -21,5 +27,6 @@ export function tableNameGenerator(tableName: string) {
 		pk,
 		tableName,
 		uq,
+		now,
 	};
 }

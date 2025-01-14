@@ -10,6 +10,7 @@ const ForgotPasswordController = () => import('#controllers/auth/forgot_password
 const ResetPasswordController = () => import('#controllers/auth/reset_password_controller');
 const DeleteAccountController = () => import('#controllers/account/delete_account_controller');
 const KindsController = () => import('#controllers/kinds_controller');
+const PublishersController = () => import('#controllers/publishers_controller');
 
 router
 	.group(() => {
@@ -37,4 +38,14 @@ router
 		router.delete('/:uid', [KindsController, 'destroy']).as('kinds.destroy');
 	})
 	.prefix('kinds')
+	.middleware(middleware.auth());
+
+router
+	.group(() => {
+		router.get('/', [PublishersController, 'index']).as('publishers.index');
+		router.post('/', [PublishersController, 'store']).as('publishers.store');
+		router.put('/:uid', [PublishersController, 'update']).as('publishers.update');
+		router.delete('/:uid', [PublishersController, 'destroy']).as('publishers.destroy');
+	})
+	.prefix('publishers')
 	.middleware(middleware.auth());

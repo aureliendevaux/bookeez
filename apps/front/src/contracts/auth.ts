@@ -10,7 +10,7 @@ export const authContract = c.router({
 			200: z.object({
 				uid: z.string(),
 				username: z.string(),
-				roles: z.array(z.enum(['ROLE_USER', 'ROLE_GOD', 'ROLE_LIBRARIAN', 'ROLE_PUBLISHER'])),
+				roles: z.array(z.enum(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_LIBRARIAN', 'ROLE_PUBLISHER'])),
 			}),
 			400: z.object({
 				errors: z.array(z.string()),
@@ -28,7 +28,7 @@ export const authContract = c.router({
 			200: z.object({
 				uid: z.string(),
 				username: z.string(),
-				roles: z.array(z.enum(['ROLE_USER', 'ROLE_GOD', 'ROLE_LIBRARIAN', 'ROLE_PUBLISHER'])),
+				roles: z.array(z.enum(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_LIBRARIAN', 'ROLE_PUBLISHER'])),
 			}),
 			401: z.object({
 				errors: z.array(z.string()),
