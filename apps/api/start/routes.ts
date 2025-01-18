@@ -1,6 +1,7 @@
 import router from '@adonisjs/core/services/router';
 
 import { middleware } from '#start/kernel';
+import BookTypesController from '#controllers/book_types_controller';
 
 const LoginController = () => import('#controllers/auth/login_controller');
 const CheckController = () => import('#controllers/auth/check_controller');
@@ -48,4 +49,14 @@ router
 		router.delete('/:uid', [PublishersController, 'destroy']).as('publishers.destroy');
 	})
 	.prefix('publishers')
+	.middleware(middleware.auth());
+
+router
+	.group(() => {
+		router.get('/', [BookTypesController, 'index']).as('book-types.index');
+		router.post('/', [BookTypesController, 'store']).as('book-types.store');
+		router.put('/:uid', [BookTypesController, 'update']).as('book-types.update');
+		router.delete('/:uid', [BookTypesController, 'destroy']).as('book-types.destroy');
+	})
+	.prefix('book-types')
 	.middleware(middleware.auth());

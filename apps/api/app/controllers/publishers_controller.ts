@@ -33,45 +33,53 @@ export default class PublishersController {
 	async store({ bouncer, request, response }: HttpContext) {
 		if (await bouncer.with('PublisherPolicy').denies('create')) {
 			return response.forbidden({
-				message:
-					'Vous devez être connecté et avoir les droits nécessaires pour effectuer cette action',
+				message: 'Vous devez être connecté et avoir les droits nécessaires pour effectuer cette action',
 			});
 		}
 
-		const payload = await request.validateUsing(createPublisherValidator);
+		try {
+			const payload = await request.validateUsing(createPublisherValidator);
 
-		const publisher = await this.publisherRepository
-			.create({
-				name: payload.name,
-				website: payload.website,
-			})
-			.returningAll();
+			const publisher = await this.publisherRepository
+				.create({
+					name: payload.name,
+					website: payload.website,
+				})
+				.returningAll();
 
-		if (!publisher) {
-			return response.internalServerError({
-				message: "Une erreur est survenue lors de la maison d'édition",
+			if (!publisher) {
+				return response.internalServerError({
+					message: "Une erreur est survenue lors de la maison d'édition",
+				});
+			}
+
+			const publisherUser = await this.userRepository
+				.findOneBy([['uid', '=', payload.publisherUserUid]])
+				.select('id', 'roles');
+
+			if (!publisherUser) {
+				return response.notFound({
+					message: "L'utilisateur n'existe pas",
+				});
+			}
+
+			await this.publisherUserRepository
+				.create({ publisherId: publisher.id, userId: publisherUser.id })
+				.returningAll();
+
+			const updatedRoles = [...publisherUser.roles, 'ROLE_PUBLISHER'];
+			await this.userRepository.update([['id', publisherUser.id]], { roles: updatedRoles }).returningAll();
+
+			return response.created({
+				uid: publisher.uid,
+				name: publisher.name,
+				website: publisher.website,
 			});
+
+		} catch (error) {
+			console.error('Validation error:', error);
+			return response.unprocessableEntity({ message: 'Validation failed', errors: error.messages });
 		}
-
-		const publisherUser = await this.userRepository
-			.findOneBy([['uid', '=', payload.publisherUserUid]])
-			.select('id');
-
-		if (!publisherUser) {
-			return response.notFound({
-				message: "L'utilisateur n'existe pas",
-			});
-		}
-
-		await this.publisherUserRepository
-			.create({ publisherId: publisher.id, userId: publisherUser.id })
-			.returningAll();
-
-		return response.created({
-			uid: publisher.uid,
-			name: publisher.name,
-			website: publisher.website,
-		});
 	}
 
 	async update({ bouncer, params, request, response }: HttpContext) {
