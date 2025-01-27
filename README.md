@@ -22,16 +22,17 @@
 - [ ] En tant qu'utilisateur connecté, je veux supprimer un commentaire que j'ai publié
 
 ### Gestion des maisons d'édition
-- [ ] En tant que GOD, je veux créer une maison d'édition et associer un utilisateur PUBLISHER
-- [ ] En tant qu'éditeur, je veux modifier ma maison d'édition
-- [ ] En tant qu'éditeur, je veux supprimer ma maison d'édition
+- [X] En tant qu'utilisateur connecté, je veux lister les maisons d'édition
+- [X] En tant qu'admin, je veux créer une maison d'édition et associer un utilisateur 
+- [X] En tant qu'éditeur, je veux modifier ma maison d'édition
+- [X] En tant qu'éditeur, je veux supprimer ma maison d'édition
 - [ ] En tant qu'éditeur, je veux associer un livre à ma maison d'édition
 - [ ] En tant qu'éditeur, je veux associer un utilisateur à ma maison d'édition
 
 ### Gestion des genres
-- [ ] Créer un genre
-- [ ] Modifier un genre
-- [ ] Supprimer un genre
+- [X] Créer un genre
+- [X] Modifier un genre
+- [X] Supprimer un genre
 - [ ] Associer un livre à un genre
 
 ### Gestion des types
@@ -61,13 +62,13 @@
 - [X] Se déconnecter
 - [X] Savoir si l'on est connecté
 - [ ] Modifier son compte
-- [ ] Supprimer son compte
-- [ ] Mot de passe oublié
+- [X] Supprimer son compte
+- [X] Mot de passe oublié
 - [ ] S'abonner à un genre
 
 ### Gestion des rôles
 - [ ] ROLE_USER
-- [ ] ROLE_GOD
+- [ ] ROLE_ADMIN
 - [ ] ROLE_LIBRARIAN
 - [ ] ROLE_PUBLISHER
 
@@ -102,3 +103,21 @@
 - TanStack Table
 - TSRest
 - Vitest & @testing-library/react pour les tests
+
+- Composants
+  - Stylisés
+    - MUI
+    - Mantine
+    - NextUI
+    - AntDesign
+    - Carbon
+    - Chakra
+    - DaisyUI
+    - shadcn/ui
+    - bootstrap
+  - Headless
+    - react-aria-components
+    - ArkUi
+    - ariakit
+    - headless UI
+    - radix

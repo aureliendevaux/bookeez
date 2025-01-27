@@ -1,22 +1,30 @@
 import type { CommandOptions } from '@adonisjs/core/types/ace';
 
-import * as fs from 'node:fs/promises';
-import path from 'node:path';
-
 import { BaseCommand } from '@adonisjs/core/ace';
 import { FileMigrationProvider, Migrator } from 'kysely';
+import fs from 'node:fs/promises';
+import path from 'node:path';
 
-import { db } from '#database/db';
+import { db } from '#services/db';
 
-export default class KyselyRollback extends BaseCommand {
-	static readonly commandName = 'kysely:rollback';
-	static readonly description =
-		'Rollback the database by running down method on the migration files';
+export default class KyselyMigrate extends BaseCommand {
+	static readonly commandName = 'db:migrate';
+	static readonly description = 'Migrate the database by executing pending migrations';
 	static readonly options: CommandOptions = {
 		startApp: true,
 	};
 
 	declare migrator: Migrator;
+
+	/**
+	 * The complete lifecycle hook runs after the "run" method
+	 * and hence, we use it to close the data connection.
+	 */
+	async completed() {
+		if (this.isMain) {
+			await db.destroy();
+		}
+	}
 
 	/**
 	 * Prepare lifecycle hook runs before the "run" method
@@ -28,25 +36,17 @@ export default class KyselyRollback extends BaseCommand {
 			db,
 			provider: new FileMigrationProvider({
 				fs,
-				path,
 				migrationFolder: this.app.migrationsPath(),
+				path,
 			}),
 		});
-	}
-
-	/**
-	 * The complete lifecycle hook runs after the "run" method
-	 * and hence, we use it to close the data connection.
-	 */
-	async completed() {
-		await db.destroy();
 	}
 
 	/**
 	 * Runs migrations up method
 	 */
 	async run() {
-		const { error, results } = await this.migrator.migrateDown();
+		const { error, results } = await this.migrator.migrateToLatest();
 
 		/**
 		 * Print results
@@ -54,16 +54,16 @@ export default class KyselyRollback extends BaseCommand {
 		if (results)
 			for (const it of results) {
 				switch (it.status) {
-					case 'Success': {
-						this.logger.success(`migration "${it.migrationName}" rolled back successfully`);
+					case 'Error': {
+						this.logger.error(`failed to execute migration "${it.migrationName}"`);
 						break;
 					}
-					case 'Error': {
-						this.logger.error(`failed to rollback migration "${it.migrationName}"`);
+					case 'Success': {
+						this.logger.success(`migration "${it.migrationName}" was executed successfully`);
 						break;
 					}
 					case 'NotExecuted': {
-						this.logger.info(`rollback pending "${it.migrationName}"`);
+						this.logger.info(`migration pending "${it.migrationName}"`);
 					}
 				}
 			}
@@ -72,7 +72,7 @@ export default class KyselyRollback extends BaseCommand {
 		 * Display error
 		 */
 		if (error) {
-			this.logger.error('Failed to rollback');
+			this.logger.error('Failed to migrate');
 			this.error = error;
 			this.exitCode = 1;
 		}

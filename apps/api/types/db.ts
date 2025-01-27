@@ -17,11 +17,11 @@ export declare namespace User {
 		username: string;
 		password: string;
 		roles: Array<string>;
-		resetPasswordToken: Uid | null;
+		resetPasswordToken: null | Uid;
 		createdAt: Timestamp;
 		updatedAt: Timestamp;
-		createdById: number | null;
-		updatedById: number | null;
+		createdById: null | number;
+		updatedById: null | number;
 	}
 
 	export type Row = Selectable<Table>;
@@ -33,8 +33,8 @@ export declare namespace RememberMeToken {
 	export interface Table {
 		id: Generated<number>;
 		uid: Uid;
-		hash: string;
 		tokenableId: number;
+		hash: string;
 		expiresAt: Timestamp;
 		createdAt: Timestamp;
 		updatedAt: Timestamp;
@@ -45,7 +45,72 @@ export declare namespace RememberMeToken {
 	export type Update = Updateable<Table>;
 }
 
+export declare namespace Kind {
+	export interface Table {
+		id: Generated<number>;
+		uid: Uid;
+		name: string;
+		createdAt: Timestamp;
+		updatedAt: Timestamp;
+		createdById: null | number;
+		updatedById: null | number;
+	}
+
+	export type Row = Selectable<Table>;
+	export type Create = Insertable<Table>;
+	export type Update = Updateable<Table>;
+}
+
+export declare namespace BookType {
+	export interface Table {
+		id: Generated<number>;
+		uid: Uid;
+		name: string;
+		createdAt: Timestamp;
+		updatedAt: Timestamp;
+		createdById: null | number;
+		updatedById: null | number;
+	}
+
+	export type Row = Selectable<Table>;
+	export type Create = Insertable<Table>;
+	export type Update = Updateable<Table>;
+}
+
+export declare namespace Publisher {
+	export interface Table {
+		id: Generated<number>;
+		uid: Uid;
+		name: string;
+		website: string | null;
+		createdAt: Timestamp;
+		updatedAt: Timestamp;
+		createdById: null | number;
+		updatedById: null | number;
+	}
+
+	export type Row = Selectable<Table>;
+	export type Create = Insertable<Table>;
+	export type Update = Updateable<Table>;
+}
+
+export declare namespace PublisherUser {
+	export interface Table {
+		userId: number;
+		publisherId: number;
+		createdAt: Timestamp;
+	}
+
+	export type Row = Selectable<Table>;
+	export type Create = Insertable<Table>;
+	export type Update = Updateable<Table>;
+}
+
 export interface DB {
 	users: User.Table;
+	kinds: Kind.Table;
+	book_types: BookType.Table;
 	remember_me_tokens: RememberMeToken.Table;
+	publishers: Publisher.Table;
+	publishers_users: PublisherUser.Table;
 }

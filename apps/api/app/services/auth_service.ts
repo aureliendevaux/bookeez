@@ -10,7 +10,7 @@ export class AuthService {
 	constructor(private readonly userRepository: UserRepository) {}
 
 	async verifyCredentials(email: string, password: string): Promise<User.Row> {
-		const user = await this.userRepository.findBy([['email', email]]).selectAllTakeFirst();
+		const user = await this.userRepository.findOneBy([['email', '=', email]]).selectAll();
 
 		if (!user) {
 			// eslint-disable-next-line @typescript-eslint/only-throw-error

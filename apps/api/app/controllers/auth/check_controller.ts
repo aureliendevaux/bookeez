@@ -7,8 +7,8 @@ export default class CheckController {
 		}
 
 		return response.json({
-			uid: auth.user.uid,
 			roles: auth.user.roles,
+			uid: auth.user.uid,
 			username: auth.user.username,
 		});
 	}

@@ -4,12 +4,15 @@ export class DatabaseTestUtils {
 	constructor(protected app: ApplicationService) {}
 
 	/**
-	 * Testing hook for running migrations ( if needed )
-	 * Return a function to truncate the whole database but keep the schema
+	 * Testing hook for running migrations
+	 * Return a function to roll back the whole database
+	 *
+	 * Note that this is slower than truncate() because it
+	 * has to run all migration in both directions when running tests
 	 */
-	async truncate() {
-		await this.#runCommand('kysely:migrate');
-		return () => this.#runCommand('kysely:truncate');
+	async migrate() {
+		await this.#runCommand('db:migrate');
+		return () => this.#runCommand('db:truncate', ['--silent']);
 	}
 
 	/**
@@ -20,22 +23,18 @@ export class DatabaseTestUtils {
 	}
 
 	/**
-	 * Testing hook to reset database
+	 * Testing hook for running migrations ( if needed )
+	 * Return a function to truncate the whole database but keep the schema
 	 */
-	async wipe() {
-		await this.#runCommand('db:wipe');
+	async truncate() {
+		await this.#runCommand('db:truncate', ['--silent']);
 	}
 
 	/**
-	 * Testing hook for running migrations
-	 * Return a function to roll back the whole database
-	 *
-	 * Note that this is slower than truncate() because it
-	 * has to run all migration in both directions when running tests
+	 * Testing hook to reset database
 	 */
-	async migrate() {
-		await this.#runCommand('kysely:migrate');
-		return () => this.#runCommand('kysely:rollback');
+	async wipe() {
+		await this.#runCommand('db:wipe', ['--force']);
 	}
 
 	async #runCommand(commandName: string, args: Array<string> = []) {

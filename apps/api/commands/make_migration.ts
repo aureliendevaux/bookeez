@@ -1,6 +1,6 @@
 import type { CommandOptions } from '@adonisjs/core/types/ace';
 
-import { BaseCommand, args } from '@adonisjs/core/ace';
+import { args, BaseCommand } from '@adonisjs/core/ace';
 
 export default class MakeMigration extends BaseCommand {
 	static readonly commandName = 'make:migration';
@@ -19,8 +19,8 @@ export default class MakeMigration extends BaseCommand {
 		await codemods.makeUsingStub(this.app.commandsPath('stubs'), 'make/migration.stub', {
 			entity,
 			migration: {
-				tableName,
 				fileName,
+				tableName,
 			},
 		});
 	}

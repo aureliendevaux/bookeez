@@ -2,20 +2,33 @@ import { Kysely } from 'kysely';
 
 import type { DB } from '#types/db';
 
-export async function up(db: Kysely<DB>): Promise<void> {
-	await db.schema
-		.createTable('remember_me_tokens')
-		.addColumn('id', 'integer', (col) => col.primaryKey().generatedAlwaysAsIdentity().notNull())
-		.addColumn('uid', 'uuid', (col) => col.unique().notNull())
-		.addColumn('tokenable_id', 'integer', (col) =>
-			col.references('users.id').onDelete('cascade').notNull(),
-		)
-		.addColumn('hash', 'varchar', (col) => col.notNull())
-		.addColumn('created_at', 'timestamp', (col) => col.notNull())
-		.addColumn('expires_at', 'timestamp', (col) => col.notNull())
-		.execute();
-}
+import { tableNameGenerator } from '#database/utils';
+
+const { fk, pk, tableName, uq, now } = tableNameGenerator('remember_me_tokens');
 
 export async function down(db: Kysely<DB>): Promise<void> {
-	await db.schema.dropTable('remember_me_tokens').execute();
+	await db.schema.dropTable(tableName).execute();
+}
+
+export async function up(db: Kysely<DB>): Promise<void> {
+	await db.schema
+		.createTable(tableName)
+
+		// Columns
+		.addColumn('id', 'integer', (col) => col.generatedAlwaysAsIdentity().notNull())
+		.addColumn('uid', 'uuid', (col) => col.notNull())
+		.addColumn('tokenable_id', 'integer', (col) => col.notNull())
+		.addColumn('hash', 'varchar', (col) => col.notNull())
+		.addColumn('created_at', 'timestamp', (col) => col.notNull().defaultTo(now()))
+		.addColumn('expires_at', 'timestamp', (col) => col.notNull().defaultTo(now()))
+
+		// Constraints
+		.addPrimaryKeyConstraint(pk(), ['id'])
+		.addUniqueConstraint(uq('uid'), ['uid'])
+		.addForeignKeyConstraint(fk('tokenable_id'), ['tokenable_id'], 'users', ['id'], (cb) =>
+			cb.onDelete('cascade'),
+		)
+
+		// Run
+		.execute();
 }

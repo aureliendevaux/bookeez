@@ -3,13 +3,17 @@ import { HttpContext } from '@adonisjs/core/http';
 import hash from '@adonisjs/core/services/hash';
 
 import UserRepository from '#repositories/user_repository';
-import { registerValidator } from '#validators/register';
+import { registerValidator } from '#validators/auth/register';
 
 @inject()
 export default class RegisterController {
 	constructor(private readonly userRepository: UserRepository) {}
 
-	async handle({ auth, response, request }: HttpContext) {
+	async handle({ auth, request, response }: HttpContext) {
+		if (auth.use('web').isAuthenticated) {
+			return response.badRequest({ message: 'Vous êtes déjà connecté.' });
+		}
+
 		// Valider la requête
 		const payload = await request.validateUsing(registerValidator);
 
@@ -17,9 +21,9 @@ export default class RegisterController {
 		const user = await this.userRepository
 			.create({
 				email: payload.email,
-				username: payload.username,
 				password: await hash.make(payload.password),
 				roles: ['ROLE_USER'],
+				username: payload.username,
 			})
 			.returningAll();
 
@@ -33,9 +37,9 @@ export default class RegisterController {
 		await auth.use('web').login(user);
 
 		return response.created({
+			roles: user.roles,
 			uid: user.uid,
 			username: user.username,
-			roles: user.roles,
 		});
 	}
 }

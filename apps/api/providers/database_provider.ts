@@ -1,7 +1,7 @@
 import type { ApplicationService } from '@adonisjs/core/types';
 import type { FieldContext } from '@vinejs/vine/types';
 
-import { db } from '#database/db';
+import { db } from '#services/db';
 import { DatabaseTestUtils } from '#tests/utils/database';
 
 declare module '@adonisjs/core/test_utils' {
@@ -14,18 +14,7 @@ declare module '@adonisjs/core/test_utils' {
  * Extending VineJS schema types
  */
 declare module '@vinejs/vine' {
-	interface VineKyselyBindings<ValueType extends string | number> {
-		/**
-		 * Ensure the value is unique inside the database by self
-		 * executing a query.
-		 *
-		 * - The callback must return "true", if the value is unique (does not exist).
-		 * - The callback must return "false", if the value is not unique (already exists).
-		 */
-		unique(
-			callback: (database: typeof db, value: ValueType, field: FieldContext) => Promise<boolean>,
-		): this;
-
+	interface VineKyselyBindings<ValueType extends number | string> {
 		/**
 		 * Ensure the value exists inside the database by self
 		 * executing a query.
@@ -34,6 +23,17 @@ declare module '@vinejs/vine' {
 		 * - The callback must return "true", if the value does not exist.
 		 */
 		exists(
+			callback: (database: typeof db, value: ValueType, field: FieldContext) => Promise<boolean>,
+		): this;
+
+		/**
+		 * Ensure the value is unique inside the database by self
+		 * executing a query.
+		 *
+		 * - The callback must return "true", if the value is unique (does not exist).
+		 * - The callback must return "false", if the value is not unique (already exists).
+		 */
+		unique(
 			callback: (database: typeof db, value: ValueType, field: FieldContext) => Promise<boolean>,
 		): this;
 	}
@@ -68,16 +68,6 @@ export default class DatabaseServiceProvider {
 	}
 
 	/**
-	 * Registers validation rules for VineJS
-	 */
-	protected async registerVineJSRules() {
-		if (this.app.usingVineJS) {
-			const { defineValidationRules } = await import('#validators/utils/database_bindings');
-			defineValidationRules();
-		}
-	}
-
-	/**
 	 * Register TestUtils database macro
 	 */
 	protected registerTestUtils() {
@@ -88,5 +78,15 @@ export default class DatabaseServiceProvider {
 				return new DatabaseTestUtils(this.app);
 			});
 		});
+	}
+
+	/**
+	 * Registers validation rules for VineJS
+	 */
+	protected async registerVineJSRules() {
+		if (this.app.usingVineJS) {
+			const { defineValidationRules } = await import('#validators/utils/database_bindings');
+			defineValidationRules();
+		}
 	}
 }

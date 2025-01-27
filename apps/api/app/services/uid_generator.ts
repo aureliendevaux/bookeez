@@ -12,7 +12,7 @@ export function generateUid() {
 export const uidRegex = /^[\dA-Za-z]{36}$/;
 
 export function getRequestUidOrFail(request: Request, response: Response) {
-	const parameter = request.param('uid', null) as Uid | null;
+	const parameter = request.param('uid', null) as null | Uid;
 
 	if (!parameter) {
 		response.abort(400);

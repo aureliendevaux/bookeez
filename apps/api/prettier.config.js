@@ -1,12 +1,12 @@
 /** @type {import('prettier').Config} */
 export default {
-	trailingComma: 'all',
+	arrowParens: 'always',
+	bracketSpacing: true,
+	plugins: ['prettier-plugin-packagejson'],
+	printWidth: 100,
+	quoteProps: 'consistent',
 	semi: true,
 	singleQuote: true,
+	trailingComma: 'all',
 	useTabs: true,
-	quoteProps: 'consistent',
-	bracketSpacing: true,
-	arrowParens: 'always',
-	printWidth: 100,
-	plugins: ['prettier-plugin-packagejson'],
 };

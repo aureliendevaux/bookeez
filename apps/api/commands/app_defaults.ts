@@ -24,8 +24,8 @@ export default class AppDefaults extends BaseCommand {
 			.create({
 				email: env.get('GOD_EMAIL'),
 				password: await hash.make(env.get('GOD_PASSWORD')),
+				roles: ['ROLE_ADMIN'],
 				username: env.get('GOD_USERNAME'),
-				roles: ['ROLE_GOD'],
 			})
 			.returning('id');
 	}

@@ -1,44 +1,29 @@
 import type { Transaction } from 'kysely';
 
-import AbstractRepository from '#repositories/abstract_repository';
-import { date } from '#services/date_factory';
-import { type Uid, generateUid } from '#services/uid_generator';
 import type { DB, RememberMeToken } from '#types/db';
 import type { CommonFields } from '#types/index';
 
+import AbstractRepository from '#repositories/abstract_repository';
+import { date } from '#services/date_factory';
+import { generateUid } from '#services/uid_generator';
+
 type CreateRememberMeTokenDTO = Omit<RememberMeToken.Create, CommonFields>;
 
-export default class RememberMeTokenRepository extends AbstractRepository {
-	get(identifier: Uid, transaction?: Transaction<DB>) {
-		return this.$findBy({
-			table: 'remember_me_tokens',
-			where: [['uid', identifier]],
-			transaction,
-		});
+export default class RememberMeTokenRepository extends AbstractRepository<'remember_me_tokens'> {
+	constructor() {
+		super('remember_me_tokens');
 	}
 
 	create(payload: CreateRememberMeTokenDTO, transaction?: Transaction<DB>) {
 		return this.$create({
-			table: 'remember_me_tokens',
-			transaction,
 			payload: {
-				uid: generateUid(),
-				tokenableId: payload.tokenableId,
-				hash: payload.hash,
+				createdAt: this.now(),
 				expiresAt: date(payload.expiresAt).toSQL(),
-				createdAt: date().toSQL(),
-				updatedAt: date().toSQL(),
+				hash: payload.hash,
+				tokenableId: payload.tokenableId,
+				uid: generateUid(),
+				updatedAt: this.now(),
 			},
-		});
-	}
-
-	delete(identifier: Uid, userId: number, transaction?: Transaction<DB>) {
-		return this.$delete({
-			table: 'remember_me_tokens',
-			where: [
-				['uid', identifier],
-				['tokenableId', userId],
-			],
 			transaction,
 		});
 	}
