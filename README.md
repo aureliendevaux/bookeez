@@ -36,9 +36,9 @@
 - [ ] Associer un livre à un genre
 
 ### Gestion des types
-- [ ] Créer un type
-- [ ] Modifier un type
-- [ ] Supprimer un type
+- [X] Créer un type
+- [X] Modifier un type
+- [X] Supprimer un type
 - [ ] Associer un livre à un type
 
 ### Gestion des auteurs
@@ -96,7 +96,7 @@
 ### Frontend
 
 - React.js w/ TS
-- UnoCSS
+- TailwindCSS v4
 - TanStack Query
 - TanStack Router
 - TanStack Form

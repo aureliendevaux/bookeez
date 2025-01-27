@@ -20,7 +20,7 @@ const sessionConfig = defineConfig({
 	 * cookie store
 	 */
 	cookie: {
-		domain: '.bookeez.aaa',
+		domain: 'bookeez.aaa',
 		httpOnly: true,
 		path: '/',
 		sameSite: 'lax',
