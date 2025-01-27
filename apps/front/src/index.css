@@ -1,1 +1,7 @@
 @import "tailwindcss";
+
+@plugin "@egoist/tailwindcss-icons";
+
+@utility bg-brand-* {
+	background-color: --value(--bg-purple-*);
+}

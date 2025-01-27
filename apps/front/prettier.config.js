@@ -8,5 +8,6 @@ export default {
 	bracketSpacing: true,
 	arrowParens: 'always',
 	printWidth: 100,
-	plugins: ['prettier-plugin-packagejson', 'prettier-plugin-taildwindcss'],
+	tailwindFunctions: ['cw', 'cx', 'cva'],
+	plugins: ['prettier-plugin-packagejson', 'prettier-plugin-tailwindcss'],
 };
