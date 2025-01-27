@@ -61,9 +61,22 @@ export declare namespace Kind {
 	export type Update = Updateable<Table>;
 }
 
+export declare namespace BookType {
 	export interface Table {
+		id: Generated<number>;
+		uid: Uid;
+		name: string;
 		createdAt: Timestamp;
+		updatedAt: Timestamp;
 		createdById: null | number;
+		updatedById: null | number;
+	}
+
+	export type Row = Selectable<Table>;
+	export type Create = Insertable<Table>;
+	export type Update = Updateable<Table>;
+}
+
 export declare namespace Publisher {
 	export interface Table {
 		id: Generated<number>;
@@ -96,8 +109,8 @@ export declare namespace PublisherUser {
 export interface DB {
 	users: User.Table;
 	kinds: Kind.Table;
+	book_types: BookType.Table;
 	remember_me_tokens: RememberMeToken.Table;
-	users: User.Table;
 	publishers: Publisher.Table;
 	publishers_users: PublisherUser.Table;
 }

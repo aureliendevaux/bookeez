@@ -10,6 +10,7 @@ const ForgotPasswordController = () => import('#controllers/auth/forgot_password
 const ResetPasswordController = () => import('#controllers/auth/reset_password_controller');
 const DeleteAccountController = () => import('#controllers/account/delete_account_controller');
 const KindsController = () => import('#controllers/kinds_controller');
+const BookTypesController = () => import('#controllers/book_types_controller');
 const PublishersController = () => import('#controllers/publishers_controller');
 
 router
@@ -38,6 +39,16 @@ router
 		router.delete('/:uid', [KindsController, 'destroy']).as('kinds.destroy');
 	})
 	.prefix('kinds')
+	.middleware(middleware.auth());
+
+router
+	.group(() => {
+		router.get('/', [BookTypesController, 'index']).as('bookTypes.index');
+		router.post('/', [BookTypesController, 'store']).as('bookTypes.store');
+		router.put('/:uid', [BookTypesController, 'update']).as('bookTypes.update');
+		router.delete('/:uid', [BookTypesController, 'destroy']).as('bookTypes.destroy');
+	})
+	.prefix('book-types')
 	.middleware(middleware.auth());
 
 router
