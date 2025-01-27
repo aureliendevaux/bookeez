@@ -13,7 +13,7 @@ const corsConfig = defineConfig({
 	headers: true,
 	maxAge: 90,
 	methods: ['GET', 'HEAD', 'POST', 'PUT', 'DELETE'],
-	origin: true,
+	origin: ['https://bookeez.aaa'],
 });
 
 export default corsConfig;
