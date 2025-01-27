@@ -1,12 +1,13 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
-import unocss from 'unocss/vite';
 import { TanStackRouterVite } from '@tanstack/router-plugin/vite';
 import path from 'node:path';
+import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
 	server: {
 		host: true,
+		allowedHosts: ['bookeez.aaa'],
 	},
 	resolve: {
 		alias: {
@@ -18,6 +19,6 @@ export default defineConfig({
 			virtualRouteConfig: './src/routes.ts',
 		}),
 		react(),
-		unocss(),
+		tailwindcss(),
 	],
 });
