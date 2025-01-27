@@ -31,6 +31,11 @@ const react = [
 	eslintReact.configs.flat['jsx-runtime'],
 	eslintReactRefresh.configs.recommended,
 	...eslintQuery.configs['flat/recommended'],
+	{
+		rules: {
+			'react/no-unescaped-entities': 'off',
+		},
+	},
 ];
 
 /** @see https://github.com/eslint-community/eslint-plugin-eslint-comments */

@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/_member_layout/m/reading-list/')({
+export const Route = createFileRoute('/_member_layout/reading-list/')({
   component: ReadingListIndex,
 })
 
