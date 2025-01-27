@@ -8,11 +8,11 @@ export const Route = createFileRoute('/ui')({
 
 function Ui() {
 	return (
-		<div className="flex items-center gap-2">
+		<main className="p-6">
 			<Button label="Salutttt" variant="solid" intent="brand" />
 			<Button label="Salutttt" variant="ghost" intent="brand" />
 			<Button label="Salutttt" variant="outline" intent="brand" />
 			<Button label="Salutttt" variant="underline" intent="brand" />
-		</div>
+		</main>
 	);
 }

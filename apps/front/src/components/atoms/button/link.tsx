@@ -44,9 +44,9 @@ export function Link(props: Readonly<LinkProps>) {
 				className={cw(
 					buttonVariants({
 						align,
-						disabled: props.disabled,
+						disabled: !!props.disabled,
 						fullWidth,
-						iconOnly: icon !== undefined && !label,
+						iconOnly: !!icon && !label,
 						intent: isActiveRoute ? 'brand' : intent,
 						size,
 						variant: isActiveRoute ? 'solid' : variant,

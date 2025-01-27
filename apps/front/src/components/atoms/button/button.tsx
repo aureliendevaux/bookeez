@@ -39,9 +39,9 @@ export function Button(props: Readonly<ButtonProps>) {
 				className={cw(
 					buttonVariants({
 						align,
-						disabled: props.isDisabled,
+						disabled: !!props.isDisabled,
 						fullWidth,
-						iconOnly: icon !== undefined && !label,
+						iconOnly: !!icon && !label,
 						intent,
 						size,
 						variant,

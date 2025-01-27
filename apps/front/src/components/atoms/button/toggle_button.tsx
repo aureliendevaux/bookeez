@@ -41,9 +41,9 @@ export function ToggleButton(props: Readonly<ToggleButtonProps>) {
 				className={cw(
 					buttonVariants({
 						align,
-						disabled: props.isDisabled,
+						disabled: !!props.isDisabled,
 						fullWidth,
-						iconOnly: icon !== undefined && !label,
+						iconOnly: !!icon && !label,
 						intent,
 						size,
 						variant,

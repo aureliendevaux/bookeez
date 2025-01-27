@@ -1,7 +1,87 @@
 @import "tailwindcss";
 
-@plugin "@egoist/tailwindcss-icons";
+@theme {
+	--color-orange-*: initial;
+	--color-yellow-*: initial;
+	--color-lime-*: initial;
+	--color-green-*: initial;
+	--color-teal-*: initial;
+	--color-cyan-*: initial;
+	--color-sky-*: initial;
+	--color-blue-*: initial;
+	--color-indigo-*: initial;
+	--color-violet-*: initial;
+	--color-fuchsia-*: initial;
+	--color-pink-*: initial;
+	--color-gray-*: initial;
+	--color-zinc-*: initial;
+	--color-neutral-*: initial;
 
-@utility bg-brand-* {
-	background-color: --value(--bg-purple-*);
+	--color-brand-50: var(--color-purple-50);
+	--color-brand-100: var(--color-purple-100);
+	--color-brand-200: var(--color-purple-200);
+	--color-brand-300: var(--color-purple-300);
+	--color-brand-400: var(--color-purple-400);
+	--color-brand-500: var(--color-purple-500);
+	--color-brand-600: var(--color-purple-600);
+	--color-brand-700: var(--color-purple-700);
+	--color-brand-800: var(--color-purple-800);
+	--color-brand-900: var(--color-purple-900);
+
+	--color-danger-50: var(--color-red-50);
+	--color-danger-100: var(--color-red-100);
+	--color-danger-200: var(--color-red-200);
+	--color-danger-300: var(--color-red-300);
+	--color-danger-400: var(--color-red-400);
+	--color-danger-500: var(--color-red-500);
+	--color-danger-600: var(--color-red-600);
+	--color-danger-700: var(--color-red-700);
+	--color-danger-800: var(--color-red-800);
+	--color-danger-900: var(--color-red-900);
+
+	--color-success-50: var(--color-emerald-50);
+	--color-success-100: var(--color-emerald-100);
+	--color-success-200: var(--color-emerald-200);
+	--color-success-300: var(--color-emerald-300);
+	--color-success-400: var(--color-emerald-400);
+	--color-success-500: var(--color-emerald-500);
+	--color-success-600: var(--color-emerald-600);
+	--color-success-700: var(--color-emerald-700);
+	--color-success-800: var(--color-emerald-800);
+	--color-success-900: var(--color-emerald-900);
+
+	--color-warning-50: var(--color-amber-50);
+	--color-warning-100: var(--color-amber-100);
+	--color-warning-200: var(--color-amber-200);
+	--color-warning-300: var(--color-amber-300);
+	--color-warning-400: var(--color-amber-400);
+	--color-warning-500: var(--color-amber-500);
+	--color-warning-600: var(--color-amber-600);
+	--color-warning-700: var(--color-amber-700);
+	--color-warning-800: var(--color-amber-800);
+	--color-warning-900: var(--color-amber-900);
+
+	--color-neutral-50: var(--color-slate-50);
+	--color-neutral-100: var(--color-slate-100);
+	--color-neutral-200: var(--color-slate-200);
+	--color-neutral-300: var(--color-slate-300);
+	--color-neutral-400: var(--color-slate-400);
+	--color-neutral-500: var(--color-slate-500);
+	--color-neutral-600: var(--color-slate-600);
+	--color-neutral-700: var(--color-slate-700);
+	--color-neutral-800: var(--color-slate-800);
+	--color-neutral-900: var(--color-slate-900);
+
+	--color-light-50: var(--color-stone-50);
+	--color-light-100: var(--color-stone-100);
+	--color-light-200: var(--color-stone-200);
+	--color-light-300: var(--color-stone-300);
+	--color-light-400: var(--color-stone-400);
+	--color-light-500: var(--color-stone-500);
+	--color-light-600: var(--color-stone-600);
+	--color-light-700: var(--color-stone-700);
+	--color-light-800: var(--color-stone-800);
+	--color-light-900: var(--color-stone-900);
 }
+
+@plugin "@egoist/tailwindcss-icons";
