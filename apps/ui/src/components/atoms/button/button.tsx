@@ -1,42 +1,42 @@
-import type { ReactNode } from 'react';
-import type { LinkProps as AriaLinkProps } from 'react-aria-components';
+import type { IconNames } from '~/components/atoms/icon';
 
 import { buttonVariants, type ButtonVariants } from '~/components/atoms/button/button_variants';
 import { ButtonWrapper } from '~/components/atoms/button/button_wrapper';
 import { InnerButton } from '~/components/atoms/button/inner_button';
 import { cw } from '~/utils/style';
+import { type ReactNode, type RefAttributes } from 'react';
+import { Button as AriaButton, type ButtonProps as AriaButtonProps } from 'react-aria-components';
 
-interface ExternalLinkProps
+export interface ButtonProps
 	extends ButtonVariants,
-		Omit<AriaLinkProps, 'children' | 'href' | 'slot' | 'style'> {
-	href: string;
-	icon?: string;
+		Omit<AriaButtonProps, 'children' | 'className'>,
+		RefAttributes<HTMLButtonElement> {
+	className?: string;
+	icon?: keyof IconNames;
+	iconSize?: 'sm' | 'md' | 'lg';
 	label?: ReactNode;
 	tooltip?: ReactNode;
 }
 
-export function ExternalLink(props: Readonly<ExternalLinkProps>) {
+export function Button(props: Readonly<ButtonProps>) {
 	const {
 		align = 'center',
 		className,
 		fullWidth,
-		href,
 		icon,
+		iconSize,
 		intent,
 		label,
 		size = 'md',
 		tooltip,
 		variant,
-		target = '_blank',
 		...rest
 	} = props;
 
 	return (
 		<ButtonWrapper tooltip={tooltip}>
-			<a
+			<AriaButton
 				{...rest}
-				target={target}
-				href={href}
 				className={cw(
 					buttonVariants({
 						align,
@@ -50,8 +50,8 @@ export function ExternalLink(props: Readonly<ExternalLinkProps>) {
 					className,
 				)}
 			>
-				<InnerButton icon={icon} label={label} size={size ?? undefined} />
-			</a>
+				<InnerButton icon={icon} iconSize={iconSize} label={label} size={size ?? undefined} />
+			</AriaButton>
 		</ButtonWrapper>
 	);
 }

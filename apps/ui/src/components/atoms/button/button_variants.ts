@@ -41,7 +41,7 @@ type Variants = {
 };
 
 export const buttonVariants = cva<Variants>(
-	'inline-flex items-center gap-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 border-none rounded-md font-medium transition-colors',
+	'inline-flex items-center gap-2 rounded-md border-none font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2',
 	{
 		compoundVariants: [
 			// Classic button
@@ -64,7 +64,7 @@ export const buttonVariants = cva<Variants>(
 				variant: ['solid', 'outline', 'ghost'],
 			},
 			{
-				className: 'underline underline-offset-3 underline-2 decoration-skip-ink',
+				className: 'underline-2 decoration-skip-ink underline underline-offset-3',
 				iconOnly: false,
 				variant: 'underline',
 			},
@@ -143,7 +143,7 @@ export const buttonVariants = cva<Variants>(
 				variant: 'solid',
 			},
 			{
-				className: 'text-neutral-600 bg-neutral-100 hover:bg-neutral-200',
+				className: 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200',
 				disabled: false,
 				intent: 'light',
 				variant: 'solid',
@@ -162,7 +162,7 @@ export const buttonVariants = cva<Variants>(
 				variant: 'outline',
 			},
 			{
-				className: 'text-neutral-600 hover:text-neutral-700 hover:bg-neutral-50',
+				className: 'text-neutral-600 hover:bg-neutral-50 hover:text-neutral-700',
 				disabled: false,
 				intent: 'neutral',
 				variant: 'outline',
@@ -180,7 +180,7 @@ export const buttonVariants = cva<Variants>(
 				variant: 'outline',
 			},
 			{
-				className: 'text-neutral-500 hover:text-neutral-600 hover:bg-neutral-50',
+				className: 'text-neutral-500 hover:bg-neutral-50 hover:text-neutral-600',
 				disabled: false,
 				intent: 'light',
 				variant: 'outline',
@@ -267,7 +267,7 @@ export const buttonVariants = cva<Variants>(
 			},
 			// Disabled state
 			{
-				className: 'text-neutral-300 bg-neutral-100',
+				className: 'bg-neutral-100 text-neutral-300',
 				disabled: true,
 				variant: 'solid',
 			},
@@ -324,10 +324,10 @@ export const buttonVariants = cva<Variants>(
 				sm: undefined,
 			},
 			variant: {
-				ghost: 'no-underline bg-transparent',
-				outline: 'no-underline bg-transparent ring-current ring-1.5 ring-inset',
-				solid: 'no-underline text-white',
-				underline: 'p-0 bg-transparent',
+				ghost: 'bg-transparent no-underline',
+				outline: 'ring-1.5 bg-transparent no-underline ring-current ring-inset',
+				solid: 'text-white no-underline',
+				underline: 'bg-transparent p-0',
 			},
 		},
 	},

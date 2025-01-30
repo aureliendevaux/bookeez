@@ -1,9 +1,8 @@
 import { useForm } from '@tanstack/react-form';
 import { createLazyFileRoute, useNavigate } from '@tanstack/react-router';
-import { z } from 'zod';
-
 import { tsr } from '~/lib/query.ts';
 import { useAuthActions } from '~/stores/auth_store';
+import { z } from 'zod';
 
 export const Route = createLazyFileRoute('/_auth_layout/auth/login')({
 	component: RouteComponent,

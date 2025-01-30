@@ -1,5 +1,4 @@
 import { createLazyFileRoute } from '@tanstack/react-router';
-
 import { useAuthState } from '~/stores/auth_store';
 
 export const Route = createLazyFileRoute('/_member_layout/')({

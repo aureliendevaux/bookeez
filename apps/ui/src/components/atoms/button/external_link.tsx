@@ -1,29 +1,27 @@
-import { type ReactNode, type RefAttributes } from 'react';
-import {
-	ToggleButton as AriaToggleButton,
-	type ToggleButtonProps as AriaToggleButtonProps,
-} from 'react-aria-components';
+import type { ReactNode } from 'react';
+import type { LinkProps as AriaLinkProps } from 'react-aria-components';
 
 import { buttonVariants, type ButtonVariants } from '~/components/atoms/button/button_variants';
 import { ButtonWrapper } from '~/components/atoms/button/button_wrapper';
 import { InnerButton } from '~/components/atoms/button/inner_button';
 import { cw } from '~/utils/style';
 
-interface ToggleButtonProps
+export interface ExternalLinkProps
 	extends ButtonVariants,
-		Omit<AriaToggleButtonProps, 'children'>,
-		RefAttributes<HTMLButtonElement> {
+		Omit<AriaLinkProps, 'children' | 'href' | 'slot' | 'style'> {
+	href: string;
 	icon?: string;
 	iconSize?: 'sm' | 'md' | 'lg';
 	label?: ReactNode;
 	tooltip?: ReactNode;
 }
 
-export function ToggleButton(props: Readonly<ToggleButtonProps>) {
+export function ExternalLink(props: Readonly<ExternalLinkProps>) {
 	const {
 		align = 'center',
 		className,
 		fullWidth,
+		href,
 		icon,
 		iconSize,
 		intent,
@@ -31,13 +29,16 @@ export function ToggleButton(props: Readonly<ToggleButtonProps>) {
 		size = 'md',
 		tooltip,
 		variant,
+		target = '_blank',
 		...rest
 	} = props;
 
 	return (
 		<ButtonWrapper tooltip={tooltip}>
-			<AriaToggleButton
+			<a
 				{...rest}
+				target={target}
+				href={href}
 				className={cw(
 					buttonVariants({
 						align,
@@ -52,7 +53,7 @@ export function ToggleButton(props: Readonly<ToggleButtonProps>) {
 				)}
 			>
 				<InnerButton icon={icon} iconSize={iconSize} label={label} size={size ?? undefined} />
-			</AriaToggleButton>
+			</a>
 		</ButtonWrapper>
 	);
 }

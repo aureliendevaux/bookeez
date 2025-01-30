@@ -1,6 +1,6 @@
-import type { ReactElement, ReactNode } from "react";
+import type { ReactElement, ReactNode } from 'react';
 
-import { Tooltip, TooltipTrigger } from "react-aria-components";
+import { Tooltip, TooltipTrigger } from 'react-aria-components';
 
 interface ButtonWrapperProps {
 	children?: ReactElement;

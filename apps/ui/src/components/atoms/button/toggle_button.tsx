@@ -1,23 +1,25 @@
 import { type ReactNode, type RefAttributes } from 'react';
-import { Button as AriaButton, type ButtonProps as AriaButtonProps } from 'react-aria-components';
+import {
+	ToggleButton as AriaToggleButton,
+	type ToggleButtonProps as AriaToggleButtonProps,
+} from 'react-aria-components';
 
 import { buttonVariants, type ButtonVariants } from '~/components/atoms/button/button_variants';
 import { ButtonWrapper } from '~/components/atoms/button/button_wrapper';
 import { InnerButton } from '~/components/atoms/button/inner_button';
 import { cw } from '~/utils/style';
 
-interface ButtonProps
+export interface ToggleButtonProps
 	extends ButtonVariants,
-		Omit<AriaButtonProps, 'children' | 'className'>,
+		Omit<AriaToggleButtonProps, 'children'>,
 		RefAttributes<HTMLButtonElement> {
-	className?: string;
 	icon?: string;
 	iconSize?: 'sm' | 'md' | 'lg';
 	label?: ReactNode;
 	tooltip?: ReactNode;
 }
 
-export function Button(props: Readonly<ButtonProps>) {
+export function ToggleButton(props: Readonly<ToggleButtonProps>) {
 	const {
 		align = 'center',
 		className,
@@ -34,7 +36,7 @@ export function Button(props: Readonly<ButtonProps>) {
 
 	return (
 		<ButtonWrapper tooltip={tooltip}>
-			<AriaButton
+			<AriaToggleButton
 				{...rest}
 				className={cw(
 					buttonVariants({
@@ -50,7 +52,7 @@ export function Button(props: Readonly<ButtonProps>) {
 				)}
 			>
 				<InnerButton icon={icon} iconSize={iconSize} label={label} size={size ?? undefined} />
-			</AriaButton>
+			</AriaToggleButton>
 		</ButtonWrapper>
 	);
 }

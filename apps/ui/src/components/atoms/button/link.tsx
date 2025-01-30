@@ -5,15 +5,17 @@ import {
 	type LinkProps as TanStackLinkProps,
 	useLocation,
 } from '@tanstack/react-router';
-
 import { buttonVariants, type ButtonVariants } from '~/components/atoms/button/button_variants';
 import { ButtonWrapper } from '~/components/atoms/button/button_wrapper';
 import { InnerButton } from '~/components/atoms/button/inner_button';
 import { cw } from '~/utils/style';
 
-interface LinkProps extends ButtonVariants, Omit<TanStackLinkProps, 'children' | 'label' | 'size'> {
+export interface LinkProps
+	extends ButtonVariants,
+		Omit<TanStackLinkProps, 'children' | 'label' | 'size'> {
 	href: string;
 	icon?: string;
+	iconSize?: 'sm' | 'md' | 'lg';
 	label?: ReactNode;
 	tooltip?: ReactNode;
 	className?: string;
@@ -26,6 +28,7 @@ export function Link(props: Readonly<LinkProps>) {
 		fullWidth,
 		href,
 		icon,
+		iconSize,
 		intent,
 		label,
 		size = 'md',
@@ -54,7 +57,7 @@ export function Link(props: Readonly<LinkProps>) {
 					className,
 				)}
 			>
-				<InnerButton icon={icon} label={label} size={size ?? undefined} />
+				<InnerButton icon={icon} iconSize={iconSize} label={label} size={size ?? undefined} />
 			</TanStackLink>
 		</ButtonWrapper>
 	);

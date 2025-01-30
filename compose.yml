@@ -13,6 +13,12 @@ services:
             caddy_1: bookeez.aaa
             caddy_1.tls: internal
             caddy_1.reverse_proxy: '{{upstreams 5173}}'
+            caddy_2: ui.bookeez.aaa
+            caddy_2.tls: internal
+            caddy_2.@websockets.1_header: "Connection *Upgrade*"
+            caddy_2.@websockets.2_header: "Upgrade websocket"
+            caddy_2.1_reverse_proxy: '{{upstreams 6006}}'
+            caddy_2.2_reverse_proxy: '@websockets {{upstreams 6006}}'
         networks:
             - default
             - global_reverse_proxy
