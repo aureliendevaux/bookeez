@@ -16,7 +16,6 @@ import typescriptESLint from 'typescript-eslint';
 import eslintUnicorn from 'eslint-plugin-unicorn';
 import eslintReact from 'eslint-plugin-react';
 import eslintReactRefresh from 'eslint-plugin-react-refresh';
-import eslintQuery from '@tanstack/eslint-plugin-query';
 import eslintPerfectionist from 'eslint-plugin-perfectionist';
 import eslintStorybook from 'eslint-plugin-storybook';
 
@@ -28,7 +27,6 @@ const IGNORED_FILES = [
 	'uno.config.ts',
 	'prettier.config.js',
 	'tailwind.config.js',
-	'!.storybook',
 ];
 
 const __filename = fileURLToPath(import.meta.url);
@@ -43,7 +41,6 @@ const react = [
 	eslintReact.configs.flat.recommended,
 	eslintReact.configs.flat['jsx-runtime'],
 	eslintReactRefresh.configs.recommended,
-	...eslintQuery.configs['flat/recommended'],
 	{
 		rules: {
 			'react/no-unescaped-entities': 'off',
@@ -52,10 +49,7 @@ const react = [
 ];
 
 /** @see https://github.com/storybookjs/eslint-plugin-storybook */
-const storybook = [
-	...eslintStorybook.configs['flat/recommended'],
-	...eslintStorybook.configs['flat/csf-strict'],
-];
+const storybook = [...eslintStorybook.configs['flat/recommended']];
 
 /** @see https://github.com/azat-io/eslint-plugin-perfectionist */
 const perfectionist = [

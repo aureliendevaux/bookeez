@@ -12,6 +12,9 @@ api +args:
 front +args:
     {{ PNPM }} -F "@bookeez/front" {{ args }}
 
+ui +args:
+    {{ PNPM }} -F "@bookeez/ui" {{ args }}
+
 ace *args:
     {{ PNPM }} -F "@bookeez/api" ace {{ args }}
 

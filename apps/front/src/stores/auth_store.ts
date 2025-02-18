@@ -1,6 +1,5 @@
-import { create } from 'zustand';
-
 import { tsr } from '~/lib/query';
+import { create } from 'zustand';
 
 interface TAuthUser {
 	uid: string;

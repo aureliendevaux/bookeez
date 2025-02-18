@@ -1,9 +1,10 @@
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
-
-import './index.css';
 import { AppProviders } from '~/providers';
 import { hydrateAuthState } from '~/stores/auth_store';
+
+import './index.css';
+
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
 
 await hydrateAuthState();
 

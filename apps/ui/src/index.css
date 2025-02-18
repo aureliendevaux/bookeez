@@ -1,5 +1,7 @@
 @import 'tailwindcss';
 
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
 @theme {
 	--color-orange-*: initial;
 	--color-yellow-*: initial;
@@ -83,5 +85,3 @@
 	--color-light-800: var(--color-stone-800);
 	--color-light-900: var(--color-stone-900);
 }
-
-@plugin "@egoist/tailwindcss-icons";
