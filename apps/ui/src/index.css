@@ -86,15 +86,15 @@
 	--color-light-900: var(--color-stone-900);
 }
 
-*:not([class*="focus-visible"]):focus-visible,
-input:not([class*="focus-visible"]):focus-visible,
-button:not([class*="focus-visible"]):focus-visible,
-select:not([class*="focus-visible"]):focus-visible,
-textarea:not([class*="focus-visible"]):focus-visible {
-	outline: 0!important;
-	outline-offset: 0!important;
+*:not([class*='focus-visible']):focus-visible,
+input:not([class*='focus-visible']):focus-visible,
+button:not([class*='focus-visible']):focus-visible,
+select:not([class*='focus-visible']):focus-visible,
+textarea:not([class*='focus-visible']):focus-visible {
+	outline: 0 !important;
+	outline-offset: 0 !important;
 }
 
-input[type=search]::-webkit-search-cancel-button {
+input[type='search']::-webkit-search-cancel-button {
 	display: none;
 }
