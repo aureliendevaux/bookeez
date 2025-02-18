@@ -23,23 +23,21 @@ export function TextInput(props: Readonly<TextInputProps>) {
 	return (
 		<TextField {...rest} isInvalid={isInvalid} validationBehavior="aria">
 			<Label content={label} hidden={hiddenLabel} isRequired={props.isRequired} />
-			<div className={cw('relative rounded-md shadow-xs')}>
+			<div
+				className={cw(
+					'group group-focus:ring-brand-500 relative flex items-center rounded-md pr-1 pl-3 ring-1 shadow-xs ring-neutral-400 ring-inset group-focus:ring-2',
+					{
+						'ring-danger-500 focus:ring-danger-500 px-3': isInvalid,
+					},
+				)}
+			>
 				<Input
 					className={cw(
-						'focus:ring-brand-500 block w-full rounded-md border-0 py-2 pr-10 pl-3 text-neutral-700 ring-1 ring-neutral-400 ring-inset placeholder:text-neutral-400 focus:ring-2',
-						{
-							'ring-danger-500 focus:ring-danger-500': isInvalid,
-						},
+						'block w-full rounded-md border-0 py-2 text-neutral-700 placeholder:text-neutral-400',
 					)}
 					placeholder={placeholder}
 				/>
-				{isInvalid && (
-					<div
-						className={cw('pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3')}
-					>
-						<Icon name="triangle-alert" className={cw('text-danger-500')} />
-					</div>
-				)}
+				{isInvalid && <Icon name="triangle-alert" className={cw('text-danger-500 ml-2')} />}
 			</div>
 			<Errors errors={errors} />
 			{description && <Description>{description}</Description>}
