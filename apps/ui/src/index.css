@@ -94,3 +94,7 @@ textarea:not([class*="focus-visible"]):focus-visible {
 	outline: 0!important;
 	outline-offset: 0!important;
 }
+
+input[type=search]::-webkit-search-cancel-button {
+	display: none;
+}
