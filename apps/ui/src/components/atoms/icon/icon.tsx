@@ -9,7 +9,7 @@ export interface IconProps extends HTMLAttributes<SVGElement> {
 }
 
 export function Icon(props: Readonly<IconProps>) {
-	const { className, name, size, ...rest } = props;
+	const { className, name, size = 'md', ...rest } = props;
 	const iconUri = `/sprite.svg#${name}`;
 
 	return (

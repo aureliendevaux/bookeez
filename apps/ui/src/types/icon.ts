@@ -1,1 +1,1 @@
-export type IconName = 'arrow-down' | 'arrow-left' | 'arrow-right' | 'arrow-up' | 'close' | 'menu';
+export type IconName = 'check' | 'circle-check' | 'circle-x' | 'triangle-alert';

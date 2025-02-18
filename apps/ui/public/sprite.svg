@@ -1,23 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0">
 	<defs>
-		<symbol id="arrow-down" viewBox="0 0 24 24" fill="currentColor">
-			<path d="M12 15.5l-6.5-6.5 1.5-1.5 5 5 5-5 1.5 1.5z"/>
-		</symbol>
-		<symbol id="arrow-left" viewBox="0 0 24 24" fill="currentColor">
-			<path d="M8.5 12l6.5 6.5-1.5 1.5-5-5-5 5-1.5-1.5z"/>
-		</symbol>
-		<symbol id="arrow-right" viewBox="0 0 24 24" fill="currentColor">
-			<path d="M15.5 12l-6.5-6.5 1.5-1.5 5 5 5-5 1.5 1.5z"/>
-		</symbol>
-		<symbol id="arrow-up" viewBox="0 0 24 24" fill="currentColor">
-			<path d="M12 8.5l-6.5 6.5-1.5-1.5 5-5-5-5 1.5-1.5z"/>
-		</symbol>
-		<symbol id="close" viewBox="0 0 24 24" fill="currentColor">
-			<path d="M13.4 12l5.3-5.3-1.4-1.4-5.3 5.3-5.3-5.3-1.4 1.4 5.3 5.3-5.3 5.3 1.4 1.4 5.3-5.3 5.3 5.3 1.4-1.4-5.3-5.3z"/>
-		</symbol>
-		<symbol id="menu" viewBox="0 0 24 24" fill="currentColor">
-			<path d="M3 6h18v2h-18v-2zm0 7h18v2h-18v-2zm0 7h18v2h-18v-2z"/>
-		</symbol>
+		<symbol viewBox="0 0 24 24" id="triangle-alert"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m21.73 18l-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3M12 9v4m0 4h.01"/></symbol>
+		<symbol viewBox="0 0 24 24" id="circle-x"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="m15 9l-6 6m0-6l6 6"/></g></symbol>
+		<symbol viewBox="0 0 24 24" id="check"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 6L9 17l-5-5"/></symbol>
+		<symbol viewBox="0 0 24 24" id="circle-check"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="m9 12l2 2l4-4"/></g></symbol>
 	</defs>
 </svg>
