@@ -1,19 +1,20 @@
+import type { IconName } from '~/types/icon';
+
+import { buttonVariants, type ButtonVariants } from '~/components/atoms/button/button_variants';
+import { ButtonWrapper } from '~/components/atoms/button/button_wrapper';
+import { InnerButton } from '~/components/atoms/button/inner_button';
+import { cw } from '~/utils/style';
 import { type ReactNode, type RefAttributes } from 'react';
 import {
 	ToggleButton as AriaToggleButton,
 	type ToggleButtonProps as AriaToggleButtonProps,
 } from 'react-aria-components';
 
-import { buttonVariants, type ButtonVariants } from '~/components/atoms/button/button_variants';
-import { ButtonWrapper } from '~/components/atoms/button/button_wrapper';
-import { InnerButton } from '~/components/atoms/button/inner_button';
-import { cw } from '~/utils/style';
-
 export interface ToggleButtonProps
 	extends ButtonVariants,
 		Omit<AriaToggleButtonProps, 'children'>,
 		RefAttributes<HTMLButtonElement> {
-	icon?: string;
+	icon?: IconName;
 	iconSize?: 'sm' | 'md' | 'lg';
 	label?: ReactNode;
 	tooltip?: ReactNode;

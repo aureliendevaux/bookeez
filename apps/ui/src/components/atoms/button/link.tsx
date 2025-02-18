@@ -1,3 +1,4 @@
+import type { IconName } from '~/types/icon';
 import type { ReactNode } from 'react';
 
 import {
@@ -14,7 +15,7 @@ export interface LinkProps
 	extends ButtonVariants,
 		Omit<TanStackLinkProps, 'children' | 'label' | 'size'> {
 	href: string;
-	icon?: string;
+	icon?: IconName;
 	iconSize?: 'sm' | 'md' | 'lg';
 	label?: ReactNode;
 	tooltip?: ReactNode;

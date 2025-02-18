@@ -1,3 +1,4 @@
+import type { IconName } from '~/types/icon';
 import type { ReactNode } from 'react';
 import type { LinkProps as AriaLinkProps } from 'react-aria-components';
 
@@ -10,7 +11,7 @@ export interface ExternalLinkProps
 	extends ButtonVariants,
 		Omit<AriaLinkProps, 'children' | 'href' | 'slot' | 'style'> {
 	href: string;
-	icon?: string;
+	icon?: IconName;
 	iconSize?: 'sm' | 'md' | 'lg';
 	label?: ReactNode;
 	tooltip?: ReactNode;

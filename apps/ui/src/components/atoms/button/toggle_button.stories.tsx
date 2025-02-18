@@ -2,7 +2,7 @@ import type { ArgTypes, Meta, StoryObj } from '@storybook/react';
 import type { ValueOf } from '~/types/utils';
 
 import { fn } from '@storybook/test';
-import { IconNames } from '~/components/atoms/icon';
+import icons from '~/components/atoms/icon/names';
 
 import { ToggleButton, type ToggleButtonProps } from './toggle_button';
 
@@ -103,7 +103,7 @@ const Controls: Record<
 			},
 		},
 		icon: {
-			options: Object.keys(IconNames),
+			options: icons,
 			control: {
 				type: 'select',
 			},

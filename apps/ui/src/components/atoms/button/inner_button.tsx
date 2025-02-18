@@ -1,10 +1,11 @@
-import { ReactNode } from 'react';
+import type { IconName } from '~/types/icon';
 
 import { Icon } from '~/components/atoms/icon';
 import { cw } from '~/utils/style';
+import { ReactNode } from 'react';
 
 interface InnerButtonProps {
-	icon?: string;
+	icon?: IconName;
 	iconSize?: 'lg' | 'md' | 'sm';
 	label?: ReactNode;
 	size?: 'lg' | 'md' | 'sm';

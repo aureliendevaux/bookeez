@@ -1,4 +1,4 @@
-import type { IconNames } from '~/components/atoms/icon';
+import type { IconName } from '~/types/icon';
 
 import { buttonVariants, type ButtonVariants } from '~/components/atoms/button/button_variants';
 import { ButtonWrapper } from '~/components/atoms/button/button_wrapper';
@@ -12,7 +12,7 @@ export interface ButtonProps
 		Omit<AriaButtonProps, 'children' | 'className'>,
 		RefAttributes<HTMLButtonElement> {
 	className?: string;
-	icon?: keyof IconNames;
+	icon?: IconName;
 	iconSize?: 'sm' | 'md' | 'lg';
 	label?: ReactNode;
 	tooltip?: ReactNode;

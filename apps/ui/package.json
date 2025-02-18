@@ -6,10 +6,10 @@
 		"build": "storybook build",
 		"dev": "storybook dev --port 6006 --host 0.0.0.0 --no-open",
 		"format": "prettier --write .",
+		"icons": "node --experimental-strip-types bin/generate_icon_names.ts && prettier --write src/types/icon.ts src/components/atoms/icon/names.ts",
 		"lint": "eslint --fix .",
 		"ncu": "ncu -iu",
-		"storybook": "storybook",
-		"icons": "node --experimental-strip-types bin/generate_icon_names.ts && prettier --write src/types/icon.ts"
+		"storybook": "storybook"
 	},
 	"dependencies": {
 		"class-variance-authority": "^0.7.1",

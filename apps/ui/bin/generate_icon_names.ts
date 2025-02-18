@@ -2,7 +2,8 @@ import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 const sourceFile = path.resolve(import.meta.dirname, '../public/sprite.svg');
-const destinationFile = path.resolve(import.meta.dirname, '../src/types/icon.ts');
+const typesFile = path.resolve(import.meta.dirname, '../src/types/icon.ts');
+const declarationFile = path.resolve(import.meta.dirname, '../src/components/atoms/icon/names.ts');
 
 const file = await readFile(sourceFile, { encoding: 'utf8', flag: 'r' });
 
@@ -31,14 +32,31 @@ iconIds.sort((a, b) => {
 	return a.localeCompare(b);
 });
 
-let content = 'export type IconName =';
+await generateTypes(iconIds);
+await generateDeclaration(iconIds);
 
-for (const icon of iconIds) {
-	content += ` '${icon}' |`;
+async function generateDeclaration(ids: Array<string>) {
+	let content = 'export default [';
+
+	for (const icon of ids) {
+		content += `'${icon}',`;
+	}
+
+	content = content.slice(0, -1) + '];';
+
+	await writeFile(declarationFile, content, { encoding: 'utf8', flag: 'w' });
 }
 
-content = content.slice(0, -1) + ';';
+async function generateTypes(ids: Array<string>) {
+	let content = 'export type IconName =';
 
-await writeFile(destinationFile, content, { encoding: 'utf8', flag: 'w' });
+	for (const icon of ids) {
+		content += ` '${icon}' |`;
+	}
+
+	content = content.slice(0, -1) + ';';
+
+	await writeFile(typesFile, content, { encoding: 'utf8', flag: 'w' });
+}
 
 console.log('Icônes générées avec succès !');

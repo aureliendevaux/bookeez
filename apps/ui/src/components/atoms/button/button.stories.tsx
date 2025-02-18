@@ -2,7 +2,7 @@ import type { ArgTypes, Meta, StoryObj } from '@storybook/react';
 import type { ValueOf } from '~/types/utils';
 
 import { fn } from '@storybook/test';
-import { IconNames } from '~/components/atoms/icon';
+import icons from '~/components/atoms/icon/names';
 
 import { Button, type ButtonProps } from './button';
 
@@ -98,7 +98,7 @@ const Controls: Record<ValueOf<typeof Categories>, Partial<ArgTypes<Readonly<But
 			},
 		},
 		icon: {
-			options: Object.keys(IconNames),
+			options: icons,
 			control: {
 				type: 'select',
 			},
