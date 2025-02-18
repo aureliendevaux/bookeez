@@ -8,14 +8,14 @@ const declarationFile = path.resolve(import.meta.dirname, '../src/components/ato
 const file = await readFile(sourceFile, { encoding: 'utf8', flag: 'r' });
 
 const iconIds: Array<string> = [];
-const symbols = file.match(/<symbol id="([^"]+)"/g);
+const symbols = file.match(/<symbol[^>]*id="([^"]+)"[^>]*>/g);
 
 if (!symbols) {
 	throw new Error('Aucune icône trouvée.');
 }
 
 for (const symbol of symbols) {
-	const extractedId = /<symbol id="([^"]+)"/.exec(symbol);
+	const extractedId = /id="([^"]+)"/.exec(symbol);
 
 	if (extractedId?.[1] === undefined) {
 		continue;
