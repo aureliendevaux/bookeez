@@ -427,6 +427,9 @@ importers:
       '@tanstack/react-router':
         specifier: ^1.98.0
         version: 1.98.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      '@types/node':
+        specifier: ^22.10.5
+        version: 22.10.5
       '@types/react':
         specifier: ^19.0.8
         version: 19.0.8

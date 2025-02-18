@@ -8,7 +8,8 @@
 		"format": "prettier --write .",
 		"lint": "eslint --fix .",
 		"ncu": "ncu -iu",
-		"storybook": "storybook"
+		"storybook": "storybook",
+		"icons": "node --experimental-strip-types bin/generate_icon_names.ts && prettier --write src/types/icon.ts"
 	},
 	"dependencies": {
 		"class-variance-authority": "^0.7.1",
@@ -38,6 +39,7 @@
 		"@storybook/test": "^8.5.2",
 		"@tailwindcss/vite": "^4.0.0",
 		"@tanstack/react-router": "^1.98.0",
+		"@types/node": "^22.10.5",
 		"@types/react": "^19.0.8",
 		"@types/react-dom": "^19.0.3",
 		"@typescript-eslint/parser": "^8.21.0",

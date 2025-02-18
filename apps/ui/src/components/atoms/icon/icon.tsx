@@ -1,28 +1,16 @@
-import type { ValueOf } from '~/types/utils';
+import type { IconName } from '~/types/icon';
 import type { HTMLAttributes } from 'react';
 
 import { cw } from '~/utils/style';
 
-export const IconNames = {
-	ArrowDown: 'icon-arrow-down',
-	ArrowLeft: 'icon-arrow-left',
-	ArrowRight: 'icon-arrow-right',
-	ArrowUp: 'icon-arrow-up',
-	Close: 'icon-close',
-	Menu: 'icon-menu',
-} as const;
-
-export type IconNames = typeof IconNames;
-export type IconName = ValueOf<IconNames>;
-
 export interface IconProps extends HTMLAttributes<SVGElement> {
-	name: keyof IconNames;
+	name: IconName;
 	size?: 'sm' | 'md' | 'lg';
 }
 
 export function Icon(props: Readonly<IconProps>) {
 	const { className, name, size, ...rest } = props;
-	const iconUri = `/sprite.svg#${IconNames[name]}`;
+	const iconUri = `/sprite.svg#${name}`;
 
 	return (
 		<svg
