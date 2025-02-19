@@ -26,7 +26,11 @@ export default class KindsController {
 	}
 
 	async index({ response }: HttpContext) {
-		const kinds = await this.kindRepository.findAll().select('name', 'uid');
+		const kinds = await this.kindRepository.query
+			.select()
+			.orderBy('name asc')
+			.select(['name', 'uid'])
+			.execute();
 
 		return response.ok(kinds);
 	}
