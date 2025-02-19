@@ -1,7 +1,7 @@
-import { Button, TextInput } from '@bookeez/ui';
+import { Button, Link, TextInput } from '@bookeez/ui';
 import { useForm } from '@tanstack/react-form';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import { queryClient, tsr } from '~/lib/query';
+import { tsr } from '~/lib/query';
 import { z } from 'zod';
 
 export const Route = createFileRoute('/_admin_layout/admin/kinds/new')({
@@ -16,9 +16,13 @@ type Schema = z.infer<typeof schema>;
 
 function AdminKindsNew() {
 	const navigate = useNavigate();
+	const queryClient = tsr.useQueryClient();
 	const mutation = tsr.admin.kinds.store.useMutation({
-		onSuccess: (response) => {
-			console.log(response.body.name);
+		onSuccess: () => {
+			void queryClient.invalidateQueries({
+				queryKey: [{ resource: 'kinds' }],
+				exact: false,
+			});
 		},
 	});
 
@@ -26,19 +30,17 @@ function AdminKindsNew() {
 		defaultValues: {
 			name: '',
 		},
-		onSubmit: (values) => {
+		onSubmit: async (values) => {
 			mutation.mutate({ body: values.value });
 			form.reset();
-			void queryClient.invalidateQueries({
-				queryKey: [{ resource: 'kinds' }],
-			});
-			void navigate({ to: '/admin/kinds' });
+			await navigate({ to: '/admin/kinds' });
 		},
 	});
 
 	return (
 		<>
 			<h1>Créer un genre</h1>
+			<Link href="/admin/kinds" label="Retour à la liste" intent="neutral" variant="underline" />
 			<form
 				onSubmit={(event) => {
 					event.preventDefault();
@@ -64,8 +66,8 @@ function AdminKindsNew() {
 						<Button
 							label="Ajouter"
 							type="submit"
-							intent={'success'}
-							variant={'solid'}
+							intent="success"
+							variant="solid"
 							isDisabled={!canSubmit}
 						/>
 					)}

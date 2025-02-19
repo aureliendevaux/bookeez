@@ -12,6 +12,8 @@
 	"dependencies": {
 		"@bookeez/ui": "workspace:*",
 		"@egoist/tailwindcss-icons": "^1.9.0",
+		"@fontsource-variable/lexend": "^5.1.2",
+		"@fontsource/atkinson-hyperlegible": "^5.1.1",
 		"@iconify-json/lucide": "^1.2.25",
 		"@tailwindcss/vite": "^4.0.0",
 		"@tanstack/react-form": "^0.41.3",

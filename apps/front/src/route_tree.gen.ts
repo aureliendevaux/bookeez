@@ -20,6 +20,7 @@ import { Route as ReadingListIndexImport } from './routes/(member)/reading-list/
 import { Route as AccountIndexImport } from './routes/(member)/account/index'
 import { Route as AdminKindsIndexImport } from './routes/admin/kinds/index'
 import { Route as AdminKindsNewImport } from './routes/admin/kinds/new'
+import { Route as AdminKindsUidImport } from './routes/admin/kinds/$uid'
 
 // Create Virtual Routes
 
@@ -81,6 +82,12 @@ const AdminKindsNewRoute = AdminKindsNewImport.update({
   getParentRoute: () => layoutsAdminlayoutRoute,
 } as any)
 
+const AdminKindsUidRoute = AdminKindsUidImport.update({
+  id: '/admin/kinds/$uid',
+  path: '/admin/kinds/$uid',
+  getParentRoute: () => layoutsAdminlayoutRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -134,6 +141,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ReadingListIndexImport
       parentRoute: typeof layoutsMemberlayoutImport
     }
+    '/_admin_layout/admin/kinds/$uid': {
+      id: '/_admin_layout/admin/kinds/$uid'
+      path: '/admin/kinds/$uid'
+      fullPath: '/admin/kinds/$uid'
+      preLoaderRoute: typeof AdminKindsUidImport
+      parentRoute: typeof layoutsAdminlayoutImport
+    }
     '/_admin_layout/admin/kinds/new': {
       id: '/_admin_layout/admin/kinds/new'
       path: '/admin/kinds/new'
@@ -154,11 +168,13 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface layoutsAdminlayoutRouteChildren {
+  AdminKindsUidRoute: typeof AdminKindsUidRoute
   AdminKindsNewRoute: typeof AdminKindsNewRoute
   AdminKindsIndexRoute: typeof AdminKindsIndexRoute
 }
 
 const layoutsAdminlayoutRouteChildren: layoutsAdminlayoutRouteChildren = {
+  AdminKindsUidRoute: AdminKindsUidRoute,
   AdminKindsNewRoute: AdminKindsNewRoute,
   AdminKindsIndexRoute: AdminKindsIndexRoute,
 }
@@ -198,6 +214,7 @@ export interface FileRoutesByFullPath {
   '/auth/login': typeof AuthLoginlazyRoute
   '/account': typeof AccountIndexRoute
   '/reading-list': typeof ReadingListIndexRoute
+  '/admin/kinds/$uid': typeof AdminKindsUidRoute
   '/admin/kinds/new': typeof AdminKindsNewRoute
   '/admin/kinds': typeof AdminKindsIndexRoute
 }
@@ -208,6 +225,7 @@ export interface FileRoutesByTo {
   '/auth/login': typeof AuthLoginlazyRoute
   '/account': typeof AccountIndexRoute
   '/reading-list': typeof ReadingListIndexRoute
+  '/admin/kinds/$uid': typeof AdminKindsUidRoute
   '/admin/kinds/new': typeof AdminKindsNewRoute
   '/admin/kinds': typeof AdminKindsIndexRoute
 }
@@ -221,6 +239,7 @@ export interface FileRoutesById {
   '/_auth_layout/auth/login': typeof AuthLoginlazyRoute
   '/_member_layout/account/': typeof AccountIndexRoute
   '/_member_layout/reading-list/': typeof ReadingListIndexRoute
+  '/_admin_layout/admin/kinds/$uid': typeof AdminKindsUidRoute
   '/_admin_layout/admin/kinds/new': typeof AdminKindsNewRoute
   '/_admin_layout/admin/kinds/': typeof AdminKindsIndexRoute
 }
@@ -233,6 +252,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/account'
     | '/reading-list'
+    | '/admin/kinds/$uid'
     | '/admin/kinds/new'
     | '/admin/kinds'
   fileRoutesByTo: FileRoutesByTo
@@ -242,6 +262,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/account'
     | '/reading-list'
+    | '/admin/kinds/$uid'
     | '/admin/kinds/new'
     | '/admin/kinds'
   id:
@@ -253,6 +274,7 @@ export interface FileRouteTypes {
     | '/_auth_layout/auth/login'
     | '/_member_layout/account/'
     | '/_member_layout/reading-list/'
+    | '/_admin_layout/admin/kinds/$uid'
     | '/_admin_layout/admin/kinds/new'
     | '/_admin_layout/admin/kinds/'
   fileRoutesById: FileRoutesById
@@ -288,6 +310,7 @@ export const routeTree = rootRoute
     "/_admin_layout": {
       "filePath": "(layouts)/admin_layout.tsx",
       "children": [
+        "/_admin_layout/admin/kinds/$uid",
         "/_admin_layout/admin/kinds/new",
         "/_admin_layout/admin/kinds/"
       ]
@@ -321,6 +344,10 @@ export const routeTree = rootRoute
     "/_member_layout/reading-list/": {
       "filePath": "(member)/reading-list/index.tsx",
       "parent": "/_member_layout"
+    },
+    "/_admin_layout/admin/kinds/$uid": {
+      "filePath": "admin/kinds/$uid.tsx",
+      "parent": "/_admin_layout"
     },
     "/_admin_layout/admin/kinds/new": {
       "filePath": "admin/kinds/new.tsx",

@@ -17,6 +17,27 @@ export const kindContract = c.router({
 			}),
 		},
 	},
+	show: {
+		method: 'GET',
+		path: '/kinds/:uid',
+		pathParams: z.object({
+			uid: z.string().uuid(),
+		}),
+		responses: {
+			200: z.array(
+				z.object({
+					uid: z.string(),
+					name: z.string(),
+				}),
+			),
+			401: z.object({
+				errors: z.array(z.string()),
+			}),
+			404: z.object({
+				errors: z.array(z.string()),
+			}),
+		},
+	},
 	store: {
 		method: 'POST',
 		path: '/kinds',

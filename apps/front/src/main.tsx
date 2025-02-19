@@ -1,5 +1,9 @@
 import { AppProviders } from '~/providers';
 import { hydrateAuthState } from '~/stores/auth_store';
+// @ts-expect-error font files
+import '@fontsource-variable/lexend';
+// @ts-expect-error font files
+import '@fontsource/atkinson-hyperlegible';
 
 import './index.css';
 

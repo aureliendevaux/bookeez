@@ -1,5 +1,7 @@
 @import 'tailwindcss';
 
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
 @theme {
 	--color-orange-*: initial;
 	--color-yellow-*: initial;
@@ -82,6 +84,19 @@
 	--color-light-700: var(--color-stone-700);
 	--color-light-800: var(--color-stone-800);
 	--color-light-900: var(--color-stone-900);
+
+	--font-sans: 'Atkinson Hyperlegible', sans-serif;
 }
 
-@plugin "@egoist/tailwindcss-icons";
+*:not([class*='focus-visible']):focus-visible,
+input:not([class*='focus-visible']):focus-visible,
+button:not([class*='focus-visible']):focus-visible,
+select:not([class*='focus-visible']):focus-visible,
+textarea:not([class*='focus-visible']):focus-visible {
+	outline: 0 !important;
+	outline-offset: 0 !important;
+}
+
+input[type='search']::-webkit-search-cancel-button {
+	display: none;
+}
