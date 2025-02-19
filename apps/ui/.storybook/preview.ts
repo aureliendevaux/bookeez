@@ -1,4 +1,6 @@
 import type { Preview, ReactRenderer } from '@storybook/react';
+import '@fontsource-variable/lexend';
+import '@fontsource/atkinson-hyperlegible';
 import '../src/index.css';
 import { withThemeByDataAttribute } from '@storybook/addon-themes';
 import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport';

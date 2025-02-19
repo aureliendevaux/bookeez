@@ -370,6 +370,12 @@ importers:
       '@eslint/js':
         specifier: ^9.19.0
         version: 9.19.0
+      '@fontsource-variable/lexend':
+        specifier: ^5.1.2
+        version: 5.1.2
+      '@fontsource/atkinson-hyperlegible':
+        specifier: ^5.1.1
+        version: 5.1.1
       '@storybook/addon-a11y':
         specifier: ^8.5.2
         version: 8.5.2(storybook@8.5.2(prettier@3.4.2))(vitest@3.0.4(@types/node@22.10.5)(jiti@2.4.2)(lightningcss@1.29.1)(tsx@4.19.2))
@@ -1767,6 +1773,12 @@ packages:
   '@faker-js/faker@9.0.3':
     resolution: {integrity: sha512-lWrrK4QNlFSU+13PL9jMbMKLJYXDFu3tQfayBsMXX7KL/GiQeqfB1CzHkqD5UHBUtPAuPo6XwGbMFNdVMZObRA==}
     engines: {node: '>=18.0.0', npm: '>=9.0.0'}
+
+  '@fontsource-variable/lexend@5.1.2':
+    resolution: {integrity: sha512-5gY4aYZXvhCNrpqa7f/JmRnUyRMAPqGdE0IXicbqvusj+jEwuj1JuiLPl61hTbGntQP+sMZsDHECBhlrEY/8iQ==}
+
+  '@fontsource/atkinson-hyperlegible@5.1.1':
+    resolution: {integrity: sha512-AxjSa0Ld2CrHqz3GV0gHVY7R5ySBw5c1B7FXLz59aUeFK9rJNm5ivc14qzYKaDi0lYCjFQtfpqb9pklie91PeA==}
 
   '@formatjs/ecma402-abstract@2.3.1':
     resolution: {integrity: sha512-Ip9uV+/MpLXWRk03U/GzeJMuPeOXpJBSB5V1tjA6kJhvqssye5J5LoYLc7Z5IAHb7nR62sRoguzrFiVCP/hnzw==}
@@ -8967,6 +8979,10 @@ snapshots:
 
   '@faker-js/faker@9.0.3':
     optional: true
+
+  '@fontsource-variable/lexend@5.1.2': {}
+
+  '@fontsource/atkinson-hyperlegible@5.1.1': {}
 
   '@formatjs/ecma402-abstract@2.3.1':
     dependencies:

@@ -84,6 +84,8 @@
 	--color-light-700: var(--color-stone-700);
 	--color-light-800: var(--color-stone-800);
 	--color-light-900: var(--color-stone-900);
+
+	--font-sans: 'Atkinson Hyperlegible', sans-serif;
 }
 
 *:not([class*='focus-visible']):focus-visible,
