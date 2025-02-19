@@ -17,6 +17,14 @@ export default class KindsController {
 		return response.noContent();
 	}
 
+	async show({ params, response }: HttpContext) {
+		const kind = await this.kindRepository
+			.findOneByOrFail([['uid', '=', params.uid]])
+			.select('uid', 'name');
+
+		return response.ok(kind);
+	}
+
 	async index({ response }: HttpContext) {
 		const kinds = await this.kindRepository.findAll().select('name', 'uid');
 

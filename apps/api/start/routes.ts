@@ -34,6 +34,7 @@ router
 router
 	.group(() => {
 		router.get('/', [KindsController, 'index']).as('kinds.index');
+		router.get('/:uid', [KindsController, 'show']).as('kinds.show');
 		router.post('/', [KindsController, 'store']).as('kinds.store');
 		router.put('/:uid', [KindsController, 'update']).as('kinds.update');
 		router.delete('/:uid', [KindsController, 'destroy']).as('kinds.destroy');
