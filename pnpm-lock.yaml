@@ -173,6 +173,12 @@ importers:
       '@egoist/tailwindcss-icons':
         specifier: ^1.9.0
         version: 1.9.0(tailwindcss@4.0.0)
+      '@fontsource-variable/lexend':
+        specifier: ^5.1.2
+        version: 5.1.2
+      '@fontsource/atkinson-hyperlegible':
+        specifier: ^5.1.1
+        version: 5.1.1
       '@iconify-json/lucide':
         specifier: ^1.2.25
         version: 1.2.25
