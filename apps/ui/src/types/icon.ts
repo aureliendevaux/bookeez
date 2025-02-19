@@ -1,10 +1,21 @@
 export type IconName =
+	| 'book-open-text'
+	| 'bookmark'
+	| 'building'
 	| 'check'
 	| 'circle-check'
+	| 'circle-user'
 	| 'circle-x'
 	| 'eye'
 	| 'eye-closed'
+	| 'layout-list'
+	| 'library'
+	| 'logout'
+	| 'pen-tool'
 	| 'pencil'
 	| 'search'
+	| 'sidebar-collapse'
+	| 'sidebar-expand'
 	| 'trash'
-	| 'triangle-alert';
+	| 'triangle-alert'
+	| 'users';
