@@ -16,7 +16,6 @@ import { InnerButton } from './inner_button.js';
 export interface LinkProps
 	extends ButtonVariants,
 		Omit<TanStackLinkProps, 'children' | 'label' | 'size'> {
-	href: string;
 	icon?: IconName;
 	iconSize?: 'sm' | 'md' | 'lg';
 	label?: ReactNode;

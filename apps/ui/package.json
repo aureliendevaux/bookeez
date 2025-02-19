@@ -1,7 +1,13 @@
 {
 	"name": "@bookeez/ui",
 	"type": "module",
-	"main": "src/index.ts",
+	"main": "lib/index.js",
+	"exports": {
+		"tailwind": "./src/index.css",
+		"sprite": "./public/sprite.svg",
+		"default": "./lib/index.js"
+	},
+	"files": ["lib"],
 	"scripts": {
 		"build": "tsup",
 		"dev": "storybook dev --port 6006 --host 0.0.0.0 --no-open",

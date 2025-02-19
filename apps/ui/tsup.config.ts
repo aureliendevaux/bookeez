@@ -32,5 +32,4 @@ export default defineConfig({
 	outDir: 'lib',
 	bundle: false,
 	platform: 'browser',
-	external: ['class-variance-authority', 'tailwind-merge'],
 });

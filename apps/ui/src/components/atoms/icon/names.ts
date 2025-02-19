@@ -4,6 +4,8 @@ export default [
 	'circle-x',
 	'eye',
 	'eye-closed',
+	'pencil',
 	'search',
+	'trash',
 	'triangle-alert',
 ];
