@@ -27,6 +27,7 @@ const IGNORED_FILES = [
 	'uno.config.ts',
 	'prettier.config.js',
 	'tailwind.config.js',
+	'tsup.config.ts',
 	'.storybook',
 ];
 

@@ -3,7 +3,7 @@
 	"type": "module",
 	"main": "src/index.ts",
 	"scripts": {
-		"build": "storybook build",
+		"build": "tsup",
 		"dev": "storybook dev --port 6006 --host 0.0.0.0 --no-open",
 		"format": "prettier --write .",
 		"icons": "node --experimental-strip-types bin/generate_icon_names.ts && prettier --write src/types/icon.ts src/components/atoms/icon/names.ts",
@@ -68,6 +68,7 @@
 		"react-dom": "^19.0.0",
 		"storybook": "^8.5.2",
 		"tailwindcss": "^4.0.0",
+		"tsup": "^8.3.6",
 		"typescript": "~5.7",
 		"typescript-eslint": "^8.21.0",
 		"vite": "^6.0.11"
