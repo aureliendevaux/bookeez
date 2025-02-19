@@ -1,9 +1,17 @@
 import { Button, Link } from '@bookeez/ui';
 import { createFileRoute } from '@tanstack/react-router';
 import { queryClient, tsr } from '~/lib/query';
+import { cw } from '~/utils/style';
 
 export const Route = createFileRoute('/_admin_layout/admin/kinds/')({
 	component: AdminKindsList,
+	beforeLoad: () => {
+		return {
+			admin: {
+				title: 'Genres',
+			},
+		};
+	},
 	loader: () => {
 		return queryClient.ensureQueryData({
 			queryKey: [{ domain: 'admin', resource: 'kinds', action: 'index' }],
@@ -22,15 +30,21 @@ function AdminKindsList() {
 	}
 
 	return (
-		<>
-			<h1>Genres</h1>
+		<div className={cw('grid gap-4 p-6')}>
+			<Link
+				to="/admin/kinds/new"
+				intent="brand"
+				variant="solid"
+				label="Ajouter"
+				className={cw('justify-self-end')}
+			/>
 
-			<ul className="space-y-2">
+			<ul className="divide-y-1 divide-neutral-300 rounded-md bg-white shadow-sm">
 				{query.data.body.map((kind) => (
 					<ListItem key={kind.uid} kind={kind} />
 				))}
 			</ul>
-		</>
+		</div>
 	);
 }
 
@@ -49,7 +63,7 @@ function ListItem({ kind }: Readonly<ListItemProps>) {
 	});
 
 	return (
-		<li className="flex items-center gap-1">
+		<li className="flex items-center gap-1 px-3 py-2">
 			<span>{kind.name}</span>
 			<Link
 				to="/admin/kinds/$uid"
@@ -58,6 +72,7 @@ function ListItem({ kind }: Readonly<ListItemProps>) {
 				icon="pencil"
 				variant="ghost"
 				intent="neutral"
+				className="ml-auto"
 			/>
 			<Button
 				onPress={() => {

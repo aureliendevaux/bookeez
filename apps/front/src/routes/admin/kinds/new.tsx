@@ -6,6 +6,13 @@ import { z } from 'zod';
 
 export const Route = createFileRoute('/_admin_layout/admin/kinds/new')({
 	component: AdminKindsNew,
+	beforeLoad: () => {
+		return {
+			admin: {
+				title: 'Créer un genre',
+			},
+		};
+	},
 });
 
 const schema = z.object({
@@ -39,7 +46,6 @@ function AdminKindsNew() {
 
 	return (
 		<>
-			<h1>Créer un genre</h1>
 			<Link href="/admin/kinds" label="Retour à la liste" intent="neutral" variant="underline" />
 			<form
 				onSubmit={(event) => {

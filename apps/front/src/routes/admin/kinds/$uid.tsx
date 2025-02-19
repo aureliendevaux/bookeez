@@ -1,4 +1,4 @@
-import { Button, TextInput } from '@bookeez/ui';
+import { Button, Link, TextInput } from '@bookeez/ui';
 import { useForm } from '@tanstack/react-form';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { queryClient, tsr } from '~/lib/query';
@@ -12,6 +12,13 @@ export const Route = createFileRoute('/_admin_layout/admin/kinds/$uid')({
 			queryFn: () => tsr.admin.kinds.show.query({ params: { uid: params.uid } }),
 		});
 	},
+	beforeLoad: ({ params }) => {
+		return {
+			admin: {
+				title: 'Modifier un genre #' + params.uid,
+			},
+		};
+	},
 });
 
 const editSchema = z.object({
@@ -23,6 +30,7 @@ type Schema = z.infer<typeof editSchema>;
 function AdminKindsEdit() {
 	const parameters = Route.useParams();
 	const navigate = useNavigate();
+	// @ts-expect-error shit library
 	const query = tsr.admin.kinds.show.useSuspenseQuery({
 		queryKey: [{ domain: 'admin', resource: 'kinds', action: 'show', id: parameters.uid }],
 	});
@@ -45,7 +53,8 @@ function AdminKindsEdit() {
 
 	return (
 		<>
-			<h1>Modifier un genre</h1>
+			<Link href="/admin/kinds" label="Retour à la liste" intent="neutral" variant="underline" />
+
 			<form
 				onSubmit={(event) => {
 					event.preventDefault();

@@ -86,6 +86,7 @@
 	--color-light-900: var(--color-stone-900);
 
 	--font-sans: 'Atkinson Hyperlegible', sans-serif;
+	--font-serif: 'Lexend Variable', serif;
 }
 
 *:not([class*='focus-visible']):focus-visible,
