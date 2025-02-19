@@ -1,13 +1,14 @@
 import type { ValidationError } from '@tanstack/react-form';
 import type { ReactNode } from 'react';
 
-import { Button } from '~/components/atoms/button';
-import { Description } from '~/components/atoms/forms/description';
-import { Errors } from '~/components/atoms/forms/errors';
-import { Label } from '~/components/atoms/forms/label';
-import { Icon } from '~/components/atoms/icon';
-import { cw } from '~/utils/style';
 import { Input, SearchField, type SearchFieldProps } from 'react-aria-components';
+
+import { cw } from '../../../../utils/style.js';
+import { Button } from '../../button/button.js';
+import { Icon } from '../../icon/icon.js';
+import { Description } from '../description.js';
+import { Errors } from '../errors.js';
+import { Label } from '../label.js';
 
 export interface SearchInputProps extends SearchFieldProps {
 	label: ReactNode;

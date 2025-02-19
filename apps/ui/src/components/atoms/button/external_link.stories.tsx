@@ -1,9 +1,9 @@
 import type { ArgTypes, Meta, StoryObj } from '@storybook/react';
-import type { ValueOf } from '~/types/utils';
 
-import icons from '~/components/atoms/icon/names';
+import type { ValueOf } from '../../../types/utils.js';
 
-import { ExternalLink, type ExternalLinkProps } from './external_link';
+import icons from '../icon/names.js';
+import { ExternalLink, type ExternalLinkProps } from './external_link.js';
 
 const Categories = {
 	Content: 'Content',

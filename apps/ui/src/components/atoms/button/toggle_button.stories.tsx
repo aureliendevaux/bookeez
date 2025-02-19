@@ -1,9 +1,10 @@
 import type { ArgTypes, Meta, StoryObj } from '@storybook/react';
-import type { ValueOf } from '~/types/utils';
 
 import { fn } from '@storybook/test';
-import icons from '~/components/atoms/icon/names';
 
+import type { ValueOf } from '../../../types/utils.js';
+
+import icons from '../icon/names.js';
 import { ToggleButton, type ToggleButtonProps } from './toggle_button';
 
 const Categories = {

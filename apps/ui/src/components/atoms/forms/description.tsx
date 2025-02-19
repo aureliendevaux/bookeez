@@ -1,5 +1,6 @@
-import { cw } from '~/utils/style';
 import { Text, type TextProps } from 'react-aria-components';
+
+import { cw } from '../../../utils/style.js';
 
 export type DescriptionProps = TextProps;
 

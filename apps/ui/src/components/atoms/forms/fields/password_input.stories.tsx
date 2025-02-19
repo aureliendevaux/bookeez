@@ -1,9 +1,10 @@
 import type { ArgTypes, Meta, StoryObj } from '@storybook/react';
-import type { ValueOf } from '~/types/utils';
 
 import { fn } from '@storybook/test';
 
-import { PasswordInput, type PasswordInputProps } from './password_input';
+import type { ValueOf } from '../../../../types/utils.js';
+
+import { PasswordInput, type PasswordInputProps } from './password_input.js';
 
 const Categories = {
 	Content: 'Content',

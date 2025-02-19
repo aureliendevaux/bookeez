@@ -1,11 +1,12 @@
-import type { IconName } from '~/types/icon';
-
-import { buttonVariants, type ButtonVariants } from '~/components/atoms/button/button_variants';
-import { ButtonWrapper } from '~/components/atoms/button/button_wrapper';
-import { InnerButton } from '~/components/atoms/button/inner_button';
-import { cw } from '~/utils/style';
 import { type ReactNode, type RefAttributes } from 'react';
 import { Button as AriaButton, type ButtonProps as AriaButtonProps } from 'react-aria-components';
+
+import type { IconName } from '../../../types/icon.js';
+
+import { cw } from '../../../utils/style.js';
+import { buttonVariants, type ButtonVariants } from './button_variants.js';
+import { ButtonWrapper } from './button_wrapper.js';
+import { InnerButton } from './inner_button.js';
 
 export interface ButtonProps
 	extends ButtonVariants,

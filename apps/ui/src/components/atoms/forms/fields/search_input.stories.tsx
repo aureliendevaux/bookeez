@@ -1,7 +1,8 @@
 import type { ArgTypes, Meta, StoryObj } from '@storybook/react';
-import type { ValueOf } from '~/types/utils';
 
 import { fn } from '@storybook/test';
+
+import type { ValueOf } from '../../../../types/utils.js';
 
 import { SearchInput, type SearchInputProps } from './search_input';
 

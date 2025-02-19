@@ -1,8 +1,9 @@
 import type { ValidationError } from '@tanstack/react-form';
 
-import { Icon } from '~/components/atoms/icon';
-import { cw } from '~/utils/style';
 import { FieldError } from 'react-aria-components';
+
+import { cw } from '../../../utils/style.js';
+import { Icon } from '../icon/icon.js';
 
 export interface ErrorsProps {
 	errors?: Array<ValidationError>;

@@ -1,3 +1,3 @@
-export * from './components/atoms/icon';
-export * from './components/atoms/button';
-export * from './components/atoms/forms';
+export * from './components/atoms/icon/index.js';
+export * from './components/atoms/button/index.js';
+export * from './components/atoms/forms/index.js';

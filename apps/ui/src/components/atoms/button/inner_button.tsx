@@ -1,8 +1,9 @@
-import type { IconName } from '~/types/icon';
-
-import { Icon } from '~/components/atoms/icon';
-import { cw } from '~/utils/style';
 import { ReactNode } from 'react';
+
+import type { IconName } from '../../../types/icon.js';
+
+import { cw } from '../../../utils/style.js';
+import { Icon } from '../icon/icon.js';
 
 interface InnerButtonProps {
 	icon?: IconName;

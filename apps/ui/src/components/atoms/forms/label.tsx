@@ -1,8 +1,9 @@
 import type { ReactNode } from 'react';
 import type { LabelProps as AriaLabelProps } from 'react-aria-components';
 
-import { cw } from '~/utils/style';
 import { Label as AriaLabel } from 'react-aria-components';
+
+import { cw } from '../../../utils/style.js';
 
 export interface LabelProps extends Omit<AriaLabelProps, 'content'> {
 	content: ReactNode;

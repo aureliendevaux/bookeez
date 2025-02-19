@@ -1,4 +1,14 @@
 {
 	"files": [],
+	"compilerOptions": {
+		"module": "NodeNext",
+		/* Bundler mode */
+		"moduleResolution": "nodenext",
+		"allowImportingTsExtensions": true,
+		"isolatedModules": true,
+		"moduleDetection": "force",
+		"noEmit": true,
+		"jsx": "react-jsx"
+	},
 	"references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.node.json" }]
 }

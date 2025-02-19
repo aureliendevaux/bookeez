@@ -1,10 +1,11 @@
 import type { ArgTypes, Meta, StoryObj } from '@storybook/react';
-import type { ValueOf } from '~/types/utils';
 
 import { fn } from '@storybook/test';
-import icons from '~/components/atoms/icon/names';
 
-import { Button, type ButtonProps } from './button';
+import type { ValueOf } from '../../../types/utils.js';
+
+import icons from '../icon/names.js';
+import { Button, type ButtonProps } from './button.js';
 
 const Categories = {
 	Content: 'Content',

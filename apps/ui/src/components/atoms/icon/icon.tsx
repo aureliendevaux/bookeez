@@ -1,7 +1,8 @@
-import type { IconName } from '~/types/icon';
 import type { HTMLAttributes } from 'react';
 
-import { cw } from '~/utils/style';
+import type { IconName } from '../../../types/icon.js';
+
+import { cw } from '../../../utils/style.js';
 
 export interface IconProps extends HTMLAttributes<SVGElement> {
 	name: IconName;
