@@ -54,9 +54,9 @@ export function PasswordInput(props: Readonly<PasswordInputProps>) {
 					onChange={() => {
 						togglePassword((v) => !v);
 					}}
+					size="sm"
 					tooltip={showPassword ? 'Cacher le mot de passe' : 'Afficher le mot de passe'}
 					variant="ghost"
-					className="my-1"
 				/>
 				{isInvalid && <Icon name="triangle-alert" className={cw('text-danger-500 ml-2')} />}
 			</div>
