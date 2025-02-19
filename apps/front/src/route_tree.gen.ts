@@ -8,211 +8,271 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute } from '@tanstack/react-router'
 
 // Import Routes
 
-import { Route as rootRoute } from './routes/__root';
-import { Route as uiImport } from './routes/ui';
-import { Route as layoutsMemberlayoutImport } from './routes/(layouts)/member_layout';
-import { Route as layoutsAuthlayoutImport } from './routes/(layouts)/auth_layout';
-import { Route as ReadingListIndexImport } from './routes/(member)/reading-list/index';
-import { Route as AccountIndexImport } from './routes/(member)/account/index';
+import { Route as rootRoute } from './routes/__root'
+import { Route as layoutsMemberlayoutImport } from './routes/(layouts)/member_layout'
+import { Route as layoutsAuthlayoutImport } from './routes/(layouts)/auth_layout'
+import { Route as layoutsAdminlayoutImport } from './routes/(layouts)/admin_layout'
+import { Route as ReadingListIndexImport } from './routes/(member)/reading-list/index'
+import { Route as AccountIndexImport } from './routes/(member)/account/index'
+import { Route as AdminKindsIndexImport } from './routes/admin/kinds/index'
+import { Route as AdminKindsNewImport } from './routes/admin/kinds/new'
 
 // Create Virtual Routes
 
-const IndexlazyImport = createFileRoute('/_member_layout/')();
-const AuthLoginlazyImport = createFileRoute('/_auth_layout/auth/login')();
+const IndexlazyImport = createFileRoute('/_member_layout/')()
+const AuthLoginlazyImport = createFileRoute('/_auth_layout/auth/login')()
 
 // Create/Update Routes
 
-const uiRoute = uiImport.update({
-	id: '/ui',
-	path: '/ui',
-	getParentRoute: () => rootRoute,
-} as any);
-
 const layoutsMemberlayoutRoute = layoutsMemberlayoutImport.update({
-	id: '/_member_layout',
-	getParentRoute: () => rootRoute,
-} as any);
+  id: '/_member_layout',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const layoutsAuthlayoutRoute = layoutsAuthlayoutImport.update({
-	id: '/_auth_layout',
-	getParentRoute: () => rootRoute,
-} as any);
+  id: '/_auth_layout',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const layoutsAdminlayoutRoute = layoutsAdminlayoutImport.update({
+  id: '/_admin_layout',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const IndexlazyRoute = IndexlazyImport.update({
-	id: '/',
-	path: '/',
-	getParentRoute: () => layoutsMemberlayoutRoute,
-} as any).lazy(() => import('./routes/(member)/index.lazy').then((d) => d.Route));
+  id: '/',
+  path: '/',
+  getParentRoute: () => layoutsMemberlayoutRoute,
+} as any).lazy(() =>
+  import('./routes/(member)/index.lazy').then((d) => d.Route),
+)
 
 const ReadingListIndexRoute = ReadingListIndexImport.update({
-	id: '/reading-list/',
-	path: '/reading-list/',
-	getParentRoute: () => layoutsMemberlayoutRoute,
-} as any);
+  id: '/reading-list/',
+  path: '/reading-list/',
+  getParentRoute: () => layoutsMemberlayoutRoute,
+} as any)
 
 const AccountIndexRoute = AccountIndexImport.update({
-	id: '/account/',
-	path: '/account/',
-	getParentRoute: () => layoutsMemberlayoutRoute,
-} as any);
+  id: '/account/',
+  path: '/account/',
+  getParentRoute: () => layoutsMemberlayoutRoute,
+} as any)
 
 const AuthLoginlazyRoute = AuthLoginlazyImport.update({
-	id: '/auth/login',
-	path: '/auth/login',
-	getParentRoute: () => layoutsAuthlayoutRoute,
-} as any).lazy(() => import('./routes/auth/login.lazy').then((d) => d.Route));
+  id: '/auth/login',
+  path: '/auth/login',
+  getParentRoute: () => layoutsAuthlayoutRoute,
+} as any).lazy(() => import('./routes/auth/login.lazy').then((d) => d.Route))
+
+const AdminKindsIndexRoute = AdminKindsIndexImport.update({
+  id: '/admin/kinds/',
+  path: '/admin/kinds/',
+  getParentRoute: () => layoutsAdminlayoutRoute,
+} as any)
+
+const AdminKindsNewRoute = AdminKindsNewImport.update({
+  id: '/admin/kinds/new',
+  path: '/admin/kinds/new',
+  getParentRoute: () => layoutsAdminlayoutRoute,
+} as any)
 
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
-	interface FileRoutesByPath {
-		'/_auth_layout': {
-			id: '/_auth_layout';
-			path: '';
-			fullPath: '';
-			preLoaderRoute: typeof layoutsAuthlayoutImport;
-			parentRoute: typeof rootRoute;
-		};
-		'/_member_layout': {
-			id: '/_member_layout';
-			path: '';
-			fullPath: '';
-			preLoaderRoute: typeof layoutsMemberlayoutImport;
-			parentRoute: typeof rootRoute;
-		};
-		'/ui': {
-			id: '/ui';
-			path: '/ui';
-			fullPath: '/ui';
-			preLoaderRoute: typeof uiImport;
-			parentRoute: typeof rootRoute;
-		};
-		'/_member_layout/': {
-			id: '/_member_layout/';
-			path: '/';
-			fullPath: '/';
-			preLoaderRoute: typeof IndexlazyImport;
-			parentRoute: typeof layoutsMemberlayoutImport;
-		};
-		'/_auth_layout/auth/login': {
-			id: '/_auth_layout/auth/login';
-			path: '/auth/login';
-			fullPath: '/auth/login';
-			preLoaderRoute: typeof AuthLoginlazyImport;
-			parentRoute: typeof layoutsAuthlayoutImport;
-		};
-		'/_member_layout/account/': {
-			id: '/_member_layout/account/';
-			path: '/account';
-			fullPath: '/account';
-			preLoaderRoute: typeof AccountIndexImport;
-			parentRoute: typeof layoutsMemberlayoutImport;
-		};
-		'/_member_layout/reading-list/': {
-			id: '/_member_layout/reading-list/';
-			path: '/reading-list';
-			fullPath: '/reading-list';
-			preLoaderRoute: typeof ReadingListIndexImport;
-			parentRoute: typeof layoutsMemberlayoutImport;
-		};
-	}
+  interface FileRoutesByPath {
+    '/_admin_layout': {
+      id: '/_admin_layout'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof layoutsAdminlayoutImport
+      parentRoute: typeof rootRoute
+    }
+    '/_auth_layout': {
+      id: '/_auth_layout'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof layoutsAuthlayoutImport
+      parentRoute: typeof rootRoute
+    }
+    '/_member_layout': {
+      id: '/_member_layout'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof layoutsMemberlayoutImport
+      parentRoute: typeof rootRoute
+    }
+    '/_member_layout/': {
+      id: '/_member_layout/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexlazyImport
+      parentRoute: typeof layoutsMemberlayoutImport
+    }
+    '/_auth_layout/auth/login': {
+      id: '/_auth_layout/auth/login'
+      path: '/auth/login'
+      fullPath: '/auth/login'
+      preLoaderRoute: typeof AuthLoginlazyImport
+      parentRoute: typeof layoutsAuthlayoutImport
+    }
+    '/_member_layout/account/': {
+      id: '/_member_layout/account/'
+      path: '/account'
+      fullPath: '/account'
+      preLoaderRoute: typeof AccountIndexImport
+      parentRoute: typeof layoutsMemberlayoutImport
+    }
+    '/_member_layout/reading-list/': {
+      id: '/_member_layout/reading-list/'
+      path: '/reading-list'
+      fullPath: '/reading-list'
+      preLoaderRoute: typeof ReadingListIndexImport
+      parentRoute: typeof layoutsMemberlayoutImport
+    }
+    '/_admin_layout/admin/kinds/new': {
+      id: '/_admin_layout/admin/kinds/new'
+      path: '/admin/kinds/new'
+      fullPath: '/admin/kinds/new'
+      preLoaderRoute: typeof AdminKindsNewImport
+      parentRoute: typeof layoutsAdminlayoutImport
+    }
+    '/_admin_layout/admin/kinds/': {
+      id: '/_admin_layout/admin/kinds/'
+      path: '/admin/kinds'
+      fullPath: '/admin/kinds'
+      preLoaderRoute: typeof AdminKindsIndexImport
+      parentRoute: typeof layoutsAdminlayoutImport
+    }
+  }
 }
 
 // Create and export the route tree
 
+interface layoutsAdminlayoutRouteChildren {
+  AdminKindsNewRoute: typeof AdminKindsNewRoute
+  AdminKindsIndexRoute: typeof AdminKindsIndexRoute
+}
+
+const layoutsAdminlayoutRouteChildren: layoutsAdminlayoutRouteChildren = {
+  AdminKindsNewRoute: AdminKindsNewRoute,
+  AdminKindsIndexRoute: AdminKindsIndexRoute,
+}
+
+const layoutsAdminlayoutRouteWithChildren =
+  layoutsAdminlayoutRoute._addFileChildren(layoutsAdminlayoutRouteChildren)
+
 interface layoutsAuthlayoutRouteChildren {
-	AuthLoginlazyRoute: typeof AuthLoginlazyRoute;
+  AuthLoginlazyRoute: typeof AuthLoginlazyRoute
 }
 
 const layoutsAuthlayoutRouteChildren: layoutsAuthlayoutRouteChildren = {
-	AuthLoginlazyRoute: AuthLoginlazyRoute,
-};
+  AuthLoginlazyRoute: AuthLoginlazyRoute,
+}
 
-const layoutsAuthlayoutRouteWithChildren = layoutsAuthlayoutRoute._addFileChildren(
-	layoutsAuthlayoutRouteChildren,
-);
+const layoutsAuthlayoutRouteWithChildren =
+  layoutsAuthlayoutRoute._addFileChildren(layoutsAuthlayoutRouteChildren)
 
 interface layoutsMemberlayoutRouteChildren {
-	IndexlazyRoute: typeof IndexlazyRoute;
-	AccountIndexRoute: typeof AccountIndexRoute;
-	ReadingListIndexRoute: typeof ReadingListIndexRoute;
+  IndexlazyRoute: typeof IndexlazyRoute
+  AccountIndexRoute: typeof AccountIndexRoute
+  ReadingListIndexRoute: typeof ReadingListIndexRoute
 }
 
 const layoutsMemberlayoutRouteChildren: layoutsMemberlayoutRouteChildren = {
-	IndexlazyRoute: IndexlazyRoute,
-	AccountIndexRoute: AccountIndexRoute,
-	ReadingListIndexRoute: ReadingListIndexRoute,
-};
+  IndexlazyRoute: IndexlazyRoute,
+  AccountIndexRoute: AccountIndexRoute,
+  ReadingListIndexRoute: ReadingListIndexRoute,
+}
 
-const layoutsMemberlayoutRouteWithChildren = layoutsMemberlayoutRoute._addFileChildren(
-	layoutsMemberlayoutRouteChildren,
-);
+const layoutsMemberlayoutRouteWithChildren =
+  layoutsMemberlayoutRoute._addFileChildren(layoutsMemberlayoutRouteChildren)
 
 export interface FileRoutesByFullPath {
-	'': typeof layoutsMemberlayoutRouteWithChildren;
-	'/ui': typeof uiRoute;
-	'/': typeof IndexlazyRoute;
-	'/auth/login': typeof AuthLoginlazyRoute;
-	'/account': typeof AccountIndexRoute;
-	'/reading-list': typeof ReadingListIndexRoute;
+  '': typeof layoutsMemberlayoutRouteWithChildren
+  '/': typeof IndexlazyRoute
+  '/auth/login': typeof AuthLoginlazyRoute
+  '/account': typeof AccountIndexRoute
+  '/reading-list': typeof ReadingListIndexRoute
+  '/admin/kinds/new': typeof AdminKindsNewRoute
+  '/admin/kinds': typeof AdminKindsIndexRoute
 }
 
 export interface FileRoutesByTo {
-	'': typeof layoutsAuthlayoutRouteWithChildren;
-	'/ui': typeof uiRoute;
-	'/': typeof IndexlazyRoute;
-	'/auth/login': typeof AuthLoginlazyRoute;
-	'/account': typeof AccountIndexRoute;
-	'/reading-list': typeof ReadingListIndexRoute;
+  '': typeof layoutsAuthlayoutRouteWithChildren
+  '/': typeof IndexlazyRoute
+  '/auth/login': typeof AuthLoginlazyRoute
+  '/account': typeof AccountIndexRoute
+  '/reading-list': typeof ReadingListIndexRoute
+  '/admin/kinds/new': typeof AdminKindsNewRoute
+  '/admin/kinds': typeof AdminKindsIndexRoute
 }
 
 export interface FileRoutesById {
-	'__root__': typeof rootRoute;
-	'/_auth_layout': typeof layoutsAuthlayoutRouteWithChildren;
-	'/_member_layout': typeof layoutsMemberlayoutRouteWithChildren;
-	'/ui': typeof uiRoute;
-	'/_member_layout/': typeof IndexlazyRoute;
-	'/_auth_layout/auth/login': typeof AuthLoginlazyRoute;
-	'/_member_layout/account/': typeof AccountIndexRoute;
-	'/_member_layout/reading-list/': typeof ReadingListIndexRoute;
+  __root__: typeof rootRoute
+  '/_admin_layout': typeof layoutsAdminlayoutRouteWithChildren
+  '/_auth_layout': typeof layoutsAuthlayoutRouteWithChildren
+  '/_member_layout': typeof layoutsMemberlayoutRouteWithChildren
+  '/_member_layout/': typeof IndexlazyRoute
+  '/_auth_layout/auth/login': typeof AuthLoginlazyRoute
+  '/_member_layout/account/': typeof AccountIndexRoute
+  '/_member_layout/reading-list/': typeof ReadingListIndexRoute
+  '/_admin_layout/admin/kinds/new': typeof AdminKindsNewRoute
+  '/_admin_layout/admin/kinds/': typeof AdminKindsIndexRoute
 }
 
 export interface FileRouteTypes {
-	fileRoutesByFullPath: FileRoutesByFullPath;
-	fullPaths: '' | '/ui' | '/' | '/auth/login' | '/account' | '/reading-list';
-	fileRoutesByTo: FileRoutesByTo;
-	to: '' | '/ui' | '/' | '/auth/login' | '/account' | '/reading-list';
-	id:
-		| '__root__'
-		| '/_auth_layout'
-		| '/_member_layout'
-		| '/ui'
-		| '/_member_layout/'
-		| '/_auth_layout/auth/login'
-		| '/_member_layout/account/'
-		| '/_member_layout/reading-list/';
-	fileRoutesById: FileRoutesById;
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths:
+    | ''
+    | '/'
+    | '/auth/login'
+    | '/account'
+    | '/reading-list'
+    | '/admin/kinds/new'
+    | '/admin/kinds'
+  fileRoutesByTo: FileRoutesByTo
+  to:
+    | ''
+    | '/'
+    | '/auth/login'
+    | '/account'
+    | '/reading-list'
+    | '/admin/kinds/new'
+    | '/admin/kinds'
+  id:
+    | '__root__'
+    | '/_admin_layout'
+    | '/_auth_layout'
+    | '/_member_layout'
+    | '/_member_layout/'
+    | '/_auth_layout/auth/login'
+    | '/_member_layout/account/'
+    | '/_member_layout/reading-list/'
+    | '/_admin_layout/admin/kinds/new'
+    | '/_admin_layout/admin/kinds/'
+  fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-	layoutsAuthlayoutRoute: typeof layoutsAuthlayoutRouteWithChildren;
-	layoutsMemberlayoutRoute: typeof layoutsMemberlayoutRouteWithChildren;
-	uiRoute: typeof uiRoute;
+  layoutsAdminlayoutRoute: typeof layoutsAdminlayoutRouteWithChildren
+  layoutsAuthlayoutRoute: typeof layoutsAuthlayoutRouteWithChildren
+  layoutsMemberlayoutRoute: typeof layoutsMemberlayoutRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
-	layoutsAuthlayoutRoute: layoutsAuthlayoutRouteWithChildren,
-	layoutsMemberlayoutRoute: layoutsMemberlayoutRouteWithChildren,
-	uiRoute: uiRoute,
-};
+  layoutsAdminlayoutRoute: layoutsAdminlayoutRouteWithChildren,
+  layoutsAuthlayoutRoute: layoutsAuthlayoutRouteWithChildren,
+  layoutsMemberlayoutRoute: layoutsMemberlayoutRouteWithChildren,
+}
 
 export const routeTree = rootRoute
-	._addFileChildren(rootRouteChildren)
-	._addFileTypes<FileRouteTypes>();
+  ._addFileChildren(rootRouteChildren)
+  ._addFileTypes<FileRouteTypes>()
 
 /* ROUTE_MANIFEST_START
 {
@@ -220,9 +280,16 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
+        "/_admin_layout",
         "/_auth_layout",
-        "/_member_layout",
-        "/ui"
+        "/_member_layout"
+      ]
+    },
+    "/_admin_layout": {
+      "filePath": "(layouts)/admin_layout.tsx",
+      "children": [
+        "/_admin_layout/admin/kinds/new",
+        "/_admin_layout/admin/kinds/"
       ]
     },
     "/_auth_layout": {
@@ -239,9 +306,6 @@ export const routeTree = rootRoute
         "/_member_layout/reading-list/"
       ]
     },
-    "/ui": {
-      "filePath": "ui.tsx"
-    },
     "/_member_layout/": {
       "filePath": "(member)/index.lazy.tsx",
       "parent": "/_member_layout"
@@ -257,6 +321,14 @@ export const routeTree = rootRoute
     "/_member_layout/reading-list/": {
       "filePath": "(member)/reading-list/index.tsx",
       "parent": "/_member_layout"
+    },
+    "/_admin_layout/admin/kinds/new": {
+      "filePath": "admin/kinds/new.tsx",
+      "parent": "/_admin_layout"
+    },
+    "/_admin_layout/admin/kinds/": {
+      "filePath": "admin/kinds/index.tsx",
+      "parent": "/_admin_layout"
     }
   }
 }
